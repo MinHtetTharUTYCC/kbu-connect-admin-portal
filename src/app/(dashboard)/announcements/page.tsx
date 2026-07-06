@@ -1,0 +1,154 @@
+'use client';
+
+import { format } from 'date-fns';
+import { Plus, Trash2, Users } from 'lucide-react';
+import { useState } from 'react';
+import { TopBar } from '@/components/layout/top-bar';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useAnnouncementsList } from '@/hooks/announcements/use-announcements-list';
+import { useCreateAnnouncement } from '@/hooks/announcements/use-create-announcement';
+import { useDeleteAnnouncement } from '@/hooks/announcements/use-delete-announcement';
+
+export default function AnnouncementsPage() {
+    const [showCreate, setShowCreate] = useState(false);
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
+    const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
+
+    const { data, isLoading } = useAnnouncementsList();
+    const { mutateAsync: createAnnouncement, isPending: isCreatingAnnouncement } = useCreateAnnouncement(() => {
+        setTitle('');
+        setBody('');
+        setShowCreate(false);
+    });
+    const { mutateAsync: deleteAnnouncement, isPending: isDeletingAnnouncement } = useDeleteAnnouncement(() => setDeleteTarget(null));
+
+    const announcements = data?.data ?? [];
+
+    const handleCreate = async () => {
+        if (!title.trim() || !body.trim()) return;
+        await createAnnouncement({ data: { title, body } });
+    };
+
+    return (
+        <div>
+            <TopBar
+                title="Announcements"
+                actions={
+                    <Button onClick={() => setShowCreate(true)}>
+                        <Plus className="mr-1 h-4 w-4" />
+                        New Announcement
+                    </Button>
+                }
+            />
+            <div className="p-6">
+                {isLoading ? (
+                    <div className="space-y-4">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-24 animate-pulse rounded bg-muted" />
+                        ))}
+                    </div>
+                ) : announcements.length === 0 ? (
+                    <p className="text-center text-muted-foreground">No announcements yet.</p>
+                ) : (
+                    <div className="space-y-4">
+                        {announcements.map((a) => (
+                            <Card key={a.id}>
+                                <CardHeader className="flex flex-row items-start justify-between pb-2">
+                                    <div>
+                                        <CardTitle>{a.title}</CardTitle>
+                                        <p className="mt-1 text-xs text-muted-foreground">
+                                            {format(new Date(a.createdAt), 'MMM d, yyyy HH:mm')}
+                                        </p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" onClick={() => setDeleteTarget({ id: a.id, title: a.title })}>
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                    </Button>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-sm text-muted-foreground">{a.body}</p>
+                                    <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
+                                        <Users className="h-3 w-3" />
+                                        {a.recipientCount} recipients
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <Dialog open={showCreate} onOpenChange={setShowCreate}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>New Announcement</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="title">Title</Label>
+                            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Announcement title" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="body">Body</Label>
+                            <Textarea
+                                id="body"
+                                value={body}
+                                onChange={(e) => setBody(e.target.value)}
+                                placeholder="Announcement body"
+                                rows={4}
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowCreate(false)} disabled={isCreatingAnnouncement}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleCreate} disabled={!title.trim() || !body.trim() || isCreatingAnnouncement}>
+                            {isCreatingAnnouncement ? '...' : 'Create & Broadcast'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <AlertDialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Delete Announcement</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to delete &quot;{deleteTarget?.title}&quot;? This will remove all notification rows for
+                            this announcement.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            disabled={isDeletingAnnouncement}
+                            onClick={async () => {
+                                if (deleteTarget) {
+                                    await deleteAnnouncement({ id: deleteTarget.id });
+                                }
+                            }}
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </div>
+    );
+}
