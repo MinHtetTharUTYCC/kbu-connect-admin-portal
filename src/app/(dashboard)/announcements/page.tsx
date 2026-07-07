@@ -5,6 +5,7 @@ import { Plus, Trash2, Users } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useState } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
+import { Pagination } from '@/components/pagination';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -20,7 +21,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Pagination } from '@/components/pagination';
 import { Textarea } from '@/components/ui/textarea';
 import { useAnnouncementsList } from '@/hooks/announcements/use-announcements-list';
 import { useCreateAnnouncement } from '@/hooks/announcements/use-create-announcement';

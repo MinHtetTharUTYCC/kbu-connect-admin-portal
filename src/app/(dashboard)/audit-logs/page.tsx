@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
-import { Badge } from '@/components/ui/badge';
 import { Pagination } from '@/components/pagination';
+import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAdminAuditLogs } from '@/hooks/admin/use-admin-audit-logs';
 

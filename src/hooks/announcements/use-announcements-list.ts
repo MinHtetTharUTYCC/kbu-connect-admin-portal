@@ -1,7 +1,7 @@
 'use client';
 
 import { useAdminControllerGetAnnouncements } from '@services/generated/admin/admin';
-import { AdminControllerGetAnnouncementsParams } from '@services/model/adminControllerGetAnnouncementsParams';
+import type { AdminControllerGetAnnouncementsParams } from '@services/model/adminControllerGetAnnouncementsParams';
 
 export function useAnnouncementsList(params: AdminControllerGetAnnouncementsParams) {
     return useAdminControllerGetAnnouncements(params, {

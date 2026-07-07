@@ -6,8 +6,7 @@ import type { AdminControllerGetAuditLogsParams } from '@services/model';
 export function useAdminAuditLogs(params?: AdminControllerGetAuditLogsParams) {
     return useAdminControllerGetAuditLogs(params, {
         query: {
-            staleTime: 5 * 60 * 1000,
-            refetchOnWindowFocus: true
+            staleTime: 5 * 60 * 1000
         }
     });
 }

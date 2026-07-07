@@ -23,19 +23,7 @@
             "trailingCommas": "none"
         }
     },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": true,
-            "suspicious": {
-                "noUnknownAtRules": "off"
-            }
-        },
-        "domains": {
-            "next": "recommended",
-            "react": "recommended"
-        }
-    },
+
     "assist": {
         "actions": {
             "source": {

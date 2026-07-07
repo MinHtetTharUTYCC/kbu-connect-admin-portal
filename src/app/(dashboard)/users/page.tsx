@@ -4,6 +4,7 @@ import { Ban, CheckCircle, Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
+import { Pagination } from '@/components/pagination';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,7 +18,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Pagination } from '@/components/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAllUsers } from '@/hooks/admin/use-all-users';
