@@ -1,7 +1,8 @@
 'use client';
 
 import { Ban, CheckCircle, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
 import {
     AlertDialog,
@@ -16,26 +17,79 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Pagination } from '@/components/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAllUsers } from '@/hooks/admin/use-all-users';
 import { useBanUser } from '@/hooks/ban/use-ban-user';
 import { useUnbanUser } from '@/hooks/ban/use-unban-user';
 
-export default function UsersPage() {
-    const [search, setSearch] = useState('');
-    const [isBanned, setIsBanned] = useState<string>('all');
+function UsersContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    const searchFromUrl = searchParams.get('search') ?? '';
+    const isBannedFromUrl = searchParams.get('isBanned') ?? 'all';
+    const page = Math.max(1, Number(searchParams.get('page')) || 1);
+    const limit = 50;
+    const [localSearch, setLocalSearch] = useState(searchFromUrl);
     const [banTarget, setBanTarget] = useState<{ id: string; name: string } | null>(null);
     const [unbanTarget, setUnbanTarget] = useState<{ id: string; name: string } | null>(null);
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        setLocalSearch(searchFromUrl);
+    }, [searchFromUrl]);
+
+    const updateSearchParams = useCallback(
+        (key: string, value: string, resetPage = false) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (value === '' || value === 'all') {
+                params.delete(key);
+            } else {
+                params.set(key, value);
+            }
+            if (resetPage) params.delete('page');
+            router.replace(`/users?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
+
+    const handleSearchChange = useCallback(
+        (value: string) => {
+            setLocalSearch(value);
+            if (debounceRef.current) clearTimeout(debounceRef.current);
+            debounceRef.current = setTimeout(() => {
+                updateSearchParams('search', value, true);
+            }, 300);
+        },
+        [updateSearchParams]
+    );
 
     const { data, isLoading } = useAllUsers({
-        search: search || undefined,
-        isBanned: isBanned === 'banned' ? true : isBanned === 'active' ? false : undefined
+        page,
+        limit,
+        search: searchFromUrl || undefined,
+        isBanned: isBannedFromUrl === 'banned' ? true : isBannedFromUrl === 'active' ? false : undefined
     });
     const { mutateAsync: banUser, isPending: isBanning } = useBanUser(() => setBanTarget(null));
     const { mutateAsync: unbanUser, isPending: isUnbanning } = useUnbanUser(() => setUnbanTarget(null));
 
     const users = data?.data ?? [];
+    const totalPages = data ? Math.ceil(data.total / limit) : 1;
+
+    const setPage = useCallback(
+        (p: number) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (p <= 1) {
+                params.delete('page');
+            } else {
+                params.set('page', String(p));
+            }
+            router.replace(`/users?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
 
     return (
         <div>
@@ -46,12 +100,12 @@ export default function UsersPage() {
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder="Search by name or email..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            value={localSearch}
+                            onChange={(e) => handleSearchChange(e.target.value)}
                             className="pl-9"
                         />
                     </div>
-                    <Select value={isBanned} onValueChange={setIsBanned}>
+                    <Select value={isBannedFromUrl} onValueChange={(value) => updateSearchParams('isBanned', value, true)}>
                         <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
@@ -123,6 +177,10 @@ export default function UsersPage() {
                         </TableBody>
                     </Table>
                 )}
+
+                {!isLoading && users.length > 0 && (
+                    <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
+                )}
             </div>
 
             <AlertDialog open={!!banTarget} onOpenChange={() => setBanTarget(null)}>
@@ -174,5 +232,13 @@ export default function UsersPage() {
                 </AlertDialogContent>
             </AlertDialog>
         </div>
+    );
+}
+
+export default function UsersPage() {
+    return (
+        <Suspense>
+            <UsersContent />
+        </Suspense>
     );
 }

@@ -7,8 +7,8 @@
  */
 
 export interface ToggleDiscoverableResponseDto {
-  /** Success message */
-  message: string;
-  /** Whether the user is now discoverable */
-  isDiscoverable: boolean;
+    /** Success message */
+    message: string;
+    /** Whether the user is now discoverable */
+    isDiscoverable: boolean;
 }

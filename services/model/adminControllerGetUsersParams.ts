@@ -7,23 +7,23 @@
  */
 
 export type AdminControllerGetUsersParams = {
-/**
- * Page number for pagination (default: 1)
- * @minimum 1
- */
-page?: number;
-/**
- * Number of users to return per page (default: 50)
- * @minimum 1
- * @maximum 50
- */
-limit?: number;
-/**
- * Search term to filter users by name or email
- */
-search?: string;
-/**
- * Filter users by banned status
- */
-isBanned?: boolean;
+    /**
+     * Page number for pagination (default: 1)
+     * @minimum 1
+     */
+    page?: number;
+    /**
+     * Number of users to return per page (default: 50)
+     * @minimum 1
+     * @maximum 50
+     */
+    limit?: number;
+    /**
+     * Search term to filter users by name or email
+     */
+    search?: string;
+    /**
+     * Filter users by banned status
+     */
+    isBanned?: boolean;
 };

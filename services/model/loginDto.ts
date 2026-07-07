@@ -7,6 +7,6 @@
  */
 
 export interface LoginDto {
-  /** The email address of the user. Must be a @ms.kbu.ac.th email. */
-  email: string;
+    /** The email address of the user. Must be a @ms.kbu.ac.th email. */
+    email: string;
 }

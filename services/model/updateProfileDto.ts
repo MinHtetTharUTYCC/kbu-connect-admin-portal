@@ -16,34 +16,34 @@ import type { UpdateProfileDtoPreferredGender } from './updateProfileDtoPreferre
 import type { UpdateProfileDtoPreferredNationalitiesItem } from './updateProfileDtoPreferredNationalitiesItem';
 
 export interface UpdateProfileDto {
-  /** User full name */
-  name: string;
-  /** URL of the user avatar */
-  avatarUrl?: string;
-  /** User biography */
-  bio?: string;
-  /** User faculty */
-  faculty: UpdateProfileDtoFaculty;
-  /** User interests */
-  interests: UpdateProfileDtoInterestsItem[];
-  /** User gender */
-  gender: UpdateProfileDtoGender;
-  /** Birth year */
-  birthYear: number;
-  /** Minimum preferred age */
-  minPreferredAge?: number;
-  /** Maximum preferred age */
-  maxPreferredAge?: number;
-  /** Preferred gender for matching */
-  preferredGender: UpdateProfileDtoPreferredGender;
-  /** User nationality */
-  nationality?: UpdateProfileDtoNationality;
-  /** Preferred nationalities for matching */
-  preferredNationalities?: UpdateProfileDtoPreferredNationalitiesItem[];
-  /** Preferred faculties for matching */
-  preferredFaculties?: UpdateProfileDtoPreferredFacultiesItem[];
-  /** What the user is looking for */
-  lookingFor?: UpdateProfileDtoLookingFor;
-  /** Updated gallery images */
-  gallery: NewGalleryImageDto[];
+    /** User full name */
+    name: string;
+    /** URL of the user avatar */
+    avatarUrl?: string;
+    /** User biography */
+    bio?: string;
+    /** User faculty */
+    faculty: UpdateProfileDtoFaculty;
+    /** User interests */
+    interests: UpdateProfileDtoInterestsItem[];
+    /** User gender */
+    gender: UpdateProfileDtoGender;
+    /** Birth year */
+    birthYear: number;
+    /** Minimum preferred age */
+    minPreferredAge?: number;
+    /** Maximum preferred age */
+    maxPreferredAge?: number;
+    /** Preferred gender for matching */
+    preferredGender: UpdateProfileDtoPreferredGender;
+    /** User nationality */
+    nationality?: UpdateProfileDtoNationality;
+    /** Preferred nationalities for matching */
+    preferredNationalities?: UpdateProfileDtoPreferredNationalitiesItem[];
+    /** Preferred faculties for matching */
+    preferredFaculties?: UpdateProfileDtoPreferredFacultiesItem[];
+    /** What the user is looking for */
+    lookingFor?: UpdateProfileDtoLookingFor;
+    /** Updated gallery images */
+    gallery: NewGalleryImageDto[];
 }

@@ -7,24 +7,24 @@
  */
 
 export interface BlockItemDto {
-  /** Blocked user ID */
-  id: string;
-  /** ID of the user who performed the block */
-  blockerId: string;
-  /** ID of the blocked user */
-  blockedId: string;
-  /** Name of the blocked user */
-  blockedUserName: string;
-  /**
+    /** Blocked user ID */
+    id: string;
+    /** ID of the user who performed the block */
+    blockerId: string;
+    /** ID of the blocked user */
+    blockedId: string;
+    /** Name of the blocked user */
+    blockedUserName: string;
+    /**
      * Avatar URL of the blocked user
      * @nullable
      */
-  blockedUserAvatarUrl: string | null;
-  /** Timestamp when the block was created */
-  blockedAt: string;
-  /**
+    blockedUserAvatarUrl: string | null;
+    /** Timestamp when the block was created */
+    blockedAt: string;
+    /**
      * Reason for blocking
      * @nullable
      */
-  reason: string | null;
+    reason: string | null;
 }

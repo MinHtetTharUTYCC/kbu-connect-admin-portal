@@ -1,21 +1,37 @@
 'use client';
 
 import { format } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Pagination } from '@/components/pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAdminAuditLogs } from '@/hooks/admin/use-admin-audit-logs';
 
-export default function AuditLogsPage() {
-    const [page, setPage] = useState(1);
+function AuditLogsContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const page = Math.max(1, Number(searchParams.get('page')) || 1);
     const limit = 20;
+
     const { data, isLoading } = useAdminAuditLogs({ page, limit });
 
     const logs = data?.logs ?? [];
     const totalPages = data ? Math.ceil(data.total / limit) : 1;
+
+    const setPage = useCallback(
+        (p: number) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (p <= 1) {
+                params.delete('page');
+            } else {
+                params.set('page', String(p));
+            }
+            router.replace(`/audit-logs?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
 
     return (
         <div>
@@ -66,22 +82,18 @@ export default function AuditLogsPage() {
                             </TableBody>
                         </Table>
 
-                        <div className="mt-4 flex items-center justify-between">
-                            <p className="text-sm text-muted-foreground">
-                                Page {page} of {totalPages} ({data?.total ?? 0} total)
-                            </p>
-                            <div className="flex gap-2">
-                                <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-                                    <ChevronLeft className="h-4 w-4" />
-                                </Button>
-                                <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
-                                    <ChevronRight className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
+                        <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
                     </>
                 )}
             </div>
         </div>
+    );
+}
+
+export default function AuditLogsPage() {
+    return (
+        <Suspense>
+            <AuditLogsContent />
+        </Suspense>
     );
 }

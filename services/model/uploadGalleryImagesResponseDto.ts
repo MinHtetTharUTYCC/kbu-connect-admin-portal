@@ -8,6 +8,6 @@
 import type { UploadedImageItemDto } from './uploadedImageItemDto';
 
 export interface UploadGalleryImagesResponseDto {
-  /** List of uploaded images with their URLs and unique keys */
-  images: UploadedImageItemDto[];
+    /** List of uploaded images with their URLs and unique keys */
+    images: UploadedImageItemDto[];
 }

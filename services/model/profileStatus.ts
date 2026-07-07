@@ -7,10 +7,10 @@
  */
 
 export interface ProfileStatus {
-  /** Indicates if the user has completed their profile */
-  data: boolean;
-  /** Indicates if the user has uploaded an avatar */
-  avatar: boolean;
-  /** Indicates if the user has uploaded gallery items */
-  gallery: boolean;
+    /** Indicates if the user has completed their profile */
+    data: boolean;
+    /** Indicates if the user has uploaded an avatar */
+    avatar: boolean;
+    /** Indicates if the user has uploaded gallery items */
+    gallery: boolean;
 }

@@ -8,11 +8,11 @@
 import type { MessageItemDto } from './messageItemDto';
 
 export interface MessagesListResponseDto {
-  /** List of messages in the conversation */
-  messages: MessageItemDto[];
-  /**
+    /** List of messages in the conversation */
+    messages: MessageItemDto[];
+    /**
      * Cursor for pagination (null if no more messages)
      * @nullable
      */
-  nextCursor: string | null;
+    nextCursor: string | null;
 }

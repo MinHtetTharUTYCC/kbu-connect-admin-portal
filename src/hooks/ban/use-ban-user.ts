@@ -11,9 +11,9 @@ export function useBanUser(onSuccess: () => void) {
 
     return useBanControllerBanUser({
         mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: getAdminControllerGetUsersQueryKey() });
-                queryClient.invalidateQueries({ queryKey: getAdminControllerGetStatsQueryKey() });
+            onSuccess: async () => {
+                await queryClient.invalidateQueries({ queryKey: getAdminControllerGetUsersQueryKey() });
+                await queryClient.invalidateQueries({ queryKey: getAdminControllerGetStatsQueryKey() });
 
                 toast.success('User banned');
                 onSuccess();

@@ -2,7 +2,8 @@
 
 import { format } from 'date-fns';
 import { Plus, Trash2, Users } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useState } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
 import {
     AlertDialog,
@@ -19,18 +20,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Pagination } from '@/components/pagination';
 import { Textarea } from '@/components/ui/textarea';
 import { useAnnouncementsList } from '@/hooks/announcements/use-announcements-list';
 import { useCreateAnnouncement } from '@/hooks/announcements/use-create-announcement';
 import { useDeleteAnnouncement } from '@/hooks/announcements/use-delete-announcement';
 
-export default function AnnouncementsPage() {
+function AnnouncementsContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const page = Math.max(1, Number(searchParams.get('page')) || 1);
+    const limit = 20;
+
     const [showCreate, setShowCreate] = useState(false);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
-    const { data, isLoading } = useAnnouncementsList();
+    const { data, isLoading } = useAnnouncementsList({ page, limit });
     const { mutateAsync: createAnnouncement, isPending: isCreatingAnnouncement } = useCreateAnnouncement(() => {
         setTitle('');
         setBody('');
@@ -39,6 +46,20 @@ export default function AnnouncementsPage() {
     const { mutateAsync: deleteAnnouncement, isPending: isDeletingAnnouncement } = useDeleteAnnouncement(() => setDeleteTarget(null));
 
     const announcements = data?.data ?? [];
+    const totalPages = data ? Math.ceil(data.total / limit) : 1;
+
+    const setPage = useCallback(
+        (p: number) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (p <= 1) {
+                params.delete('page');
+            } else {
+                params.set('page', String(p));
+            }
+            router.replace(`/announcements?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
 
     const handleCreate = async () => {
         if (!title.trim() || !body.trim()) return;
@@ -66,30 +87,34 @@ export default function AnnouncementsPage() {
                 ) : announcements.length === 0 ? (
                     <p className="text-center text-muted-foreground">No announcements yet.</p>
                 ) : (
-                    <div className="space-y-4">
-                        {announcements.map((a) => (
-                            <Card key={a.id}>
-                                <CardHeader className="flex flex-row items-start justify-between pb-2">
-                                    <div>
-                                        <CardTitle>{a.title}</CardTitle>
-                                        <p className="mt-1 text-xs text-muted-foreground">
-                                            {format(new Date(a.createdAt), 'MMM d, yyyy HH:mm')}
-                                        </p>
-                                    </div>
-                                    <Button variant="ghost" size="sm" onClick={() => setDeleteTarget({ id: a.id, title: a.title })}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-muted-foreground">{a.body}</p>
-                                    <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-                                        <Users className="h-3 w-3" />
-                                        {a.recipientCount} recipients
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
+                    <>
+                        <div className="space-y-4">
+                            {announcements.map((a) => (
+                                <Card key={a.id}>
+                                    <CardHeader className="flex flex-row items-start justify-between pb-2">
+                                        <div>
+                                            <CardTitle>{a.title}</CardTitle>
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                {format(new Date(a.createdAt), 'MMM d, yyyy HH:mm')}
+                                            </p>
+                                        </div>
+                                        <Button variant="ghost" size="sm" onClick={() => setDeleteTarget({ id: a.id, title: a.title })}>
+                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                        </Button>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-sm text-muted-foreground">{a.body}</p>
+                                        <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
+                                            <Users className="h-3 w-3" />
+                                            {a.recipientCount} recipients
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+
+                        <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
+                    </>
                 )}
             </div>
 
@@ -150,5 +175,13 @@ export default function AnnouncementsPage() {
                 </AlertDialogContent>
             </AlertDialog>
         </div>
+    );
+}
+
+export default function AnnouncementsPage() {
+    return (
+        <Suspense>
+            <AnnouncementsContent />
+        </Suspense>
     );
 }

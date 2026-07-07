@@ -8,8 +8,8 @@
 import type { CreateSwipeDtoType } from './createSwipeDtoType';
 
 export interface CreateSwipeDto {
-  /** ID of the user being swiped */
-  receiverId: string;
-  /** Type of swipe action */
-  type: CreateSwipeDtoType;
+    /** ID of the user being swiped */
+    receiverId: string;
+    /** Type of swipe action */
+    type: CreateSwipeDtoType;
 }

@@ -8,8 +8,8 @@
 import type { BannedUserItemDto } from './bannedUserItemDto';
 
 export interface UnbanSuccessResponseDto {
-  /** User unbanned successfully */
-  message: string;
-  /** Details of the affected user */
-  user: BannedUserItemDto;
+    /** User unbanned successfully */
+    message: string;
+    /** Details of the affected user */
+    user: BannedUserItemDto;
 }

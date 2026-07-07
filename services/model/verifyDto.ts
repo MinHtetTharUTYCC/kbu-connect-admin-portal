@@ -7,8 +7,8 @@
  */
 
 export interface VerifyDto {
-  /** The email address of the user. Must be a @ms.kbu.ac.th email. */
-  email: string;
-  /** 6-digit verification code */
-  code: string;
+    /** The email address of the user. Must be a @ms.kbu.ac.th email. */
+    email: string;
+    /** 6-digit verification code */
+    code: string;
 }

@@ -9,11 +9,10 @@
 /**
  * Gender
  */
-export type PrivateProfileResponseDtoGender = typeof PrivateProfileResponseDtoGender[keyof typeof PrivateProfileResponseDtoGender];
-
+export type PrivateProfileResponseDtoGender = (typeof PrivateProfileResponseDtoGender)[keyof typeof PrivateProfileResponseDtoGender];
 
 export const PrivateProfileResponseDtoGender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
-  OTHER: 'OTHER',
+    MALE: 'MALE',
+    FEMALE: 'FEMALE',
+    OTHER: 'OTHER'
 } as const;

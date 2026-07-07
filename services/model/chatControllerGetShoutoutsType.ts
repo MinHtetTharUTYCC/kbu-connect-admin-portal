@@ -6,10 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ChatControllerGetShoutoutsType = typeof ChatControllerGetShoutoutsType[keyof typeof ChatControllerGetShoutoutsType];
-
+export type ChatControllerGetShoutoutsType = (typeof ChatControllerGetShoutoutsType)[keyof typeof ChatControllerGetShoutoutsType];
 
 export const ChatControllerGetShoutoutsType = {
-  sent: 'sent',
-  received: 'received',
+    sent: 'sent',
+    received: 'received'
 } as const;

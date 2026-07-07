@@ -1,14 +1,12 @@
 'use client';
 
 import { useAdminControllerGetAnnouncements } from '@services/generated/admin/admin';
+import { AdminControllerGetAnnouncementsParams } from '@services/model/adminControllerGetAnnouncementsParams';
 
-export function useAnnouncementsList(page = 1, limit = 20) {
-    return useAdminControllerGetAnnouncements(
-        { page, limit },
-        {
-            query: {
-                staleTime: 5 * 60 * 1000 // 5 minutes
-            }
+export function useAnnouncementsList(params: AdminControllerGetAnnouncementsParams) {
+    return useAdminControllerGetAnnouncements(params, {
+        query: {
+            staleTime: 5 * 60 * 1000 // 5 minutes
         }
-    );
+    });
 }

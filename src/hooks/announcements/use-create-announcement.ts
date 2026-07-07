@@ -10,8 +10,8 @@ export function useCreateAnnouncement(onSuccess: () => void) {
 
     return useAdminControllerCreateAnnouncement({
         mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({
+            onSuccess: async () => {
+                await queryClient.invalidateQueries({
                     queryKey: getAdminControllerGetAnnouncementsQueryKey()
                 });
 

@@ -9,11 +9,10 @@
 /**
  * User gender
  */
-export type AdminUserItemDtoGender = typeof AdminUserItemDtoGender[keyof typeof AdminUserItemDtoGender];
-
+export type AdminUserItemDtoGender = (typeof AdminUserItemDtoGender)[keyof typeof AdminUserItemDtoGender];
 
 export const AdminUserItemDtoGender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
-  OTHER: 'OTHER',
+    MALE: 'MALE',
+    FEMALE: 'FEMALE',
+    OTHER: 'OTHER'
 } as const;

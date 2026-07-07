@@ -10,10 +10,11 @@ export function useDeleteAnnouncement(onSuccess: () => void) {
 
     return useAdminControllerDeleteAnnouncement({
         mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({
+            onSuccess: async () => {
+                await queryClient.invalidateQueries({
                     queryKey: getAdminControllerGetAnnouncementsQueryKey()
                 });
+
                 toast.success('Announcement deleted');
                 onSuccess();
             },

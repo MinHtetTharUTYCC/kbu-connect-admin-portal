@@ -1,8 +1,22 @@
 'use client';
 
-import { Flag, GraduationCap, LayoutDashboard, Megaphone, ScrollText, Users } from 'lucide-react';
+import { Flag, GraduationCap, LayoutDashboard, LogOut, Megaphone, ScrollText, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { useLogout } from '@/hooks/auth/use-logout';
+import { useProfile } from '@/hooks/auth/use-profile';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -15,6 +29,13 @@ const navItems = [
 
 export function Sidebar() {
     const pathname = usePathname();
+    const { user } = useProfile();
+    const { mutateAsync: logout, isPending: isLoggingOut } = useLogout();
+    const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <aside className="flex h-screen w-64 flex-col border-r bg-sidebar text-sidebar-foreground">
@@ -42,9 +63,38 @@ export function Sidebar() {
                     );
                 })}
             </nav>
-            <div className="border-t px-6 py-4">
-                <p className="text-xs text-muted-foreground">Admin Portal v0.1.0</p>
+            <div className="border-t px-4 py-4">
+                {user && (
+                    <div className="mb-3">
+                        <p className="truncate text-sm font-medium">{user.name}</p>
+                        <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                )}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-muted-foreground"
+                    onClick={() => setShowLogoutDialog(true)}
+                >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                </Button>
             </div>
+
+            <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Logout</AlertDialogTitle>
+                        <AlertDialogDescription>Are you sure you want to log out?</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction disabled={isLoggingOut} onClick={() => logout()}>
+                            Logout
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </aside>
     );
 }

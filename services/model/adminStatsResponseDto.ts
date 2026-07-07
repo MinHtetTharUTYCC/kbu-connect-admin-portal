@@ -7,10 +7,10 @@
  */
 
 export interface AdminStatsResponseDto {
-  /** Total users */
-  totalUsers: number;
-  /** Total matches */
-  totalMatches: number;
-  /** Pending reports */
-  pendingReports: number;
+    /** Total users */
+    totalUsers: number;
+    /** Total matches */
+    totalMatches: number;
+    /** Pending reports */
+    pendingReports: number;
 }

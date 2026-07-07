@@ -14,18 +14,20 @@ export default function LoginPage() {
     const [code, setCode] = useState('');
     const [step, setStep] = useState<'email' | 'otp'>('email');
 
-    const { mutateAsync: loginAsAdmin } = useLogin(() => setStep('otp'));
-    const { mutateAsync: verify } = useVerify();
+    const { mutateAsync: loginAsAdmin, isPending: isLoginPending } = useLogin(() => setStep('otp'));
+    const { mutateAsync: verify, isPending: isVerifyPending } = useVerify();
 
     const handleEmailSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-        if (!email) return;
-
         e.preventDefault();
+
+        if (!email) return;
         await loginAsAdmin({ data: { email } });
     };
 
     const handleOtpSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!code) return;
         await verify({ data: { email, code } });
     };
 
@@ -53,8 +55,8 @@ export default function LoginPage() {
                                     required
                                 />
                             </div>
-                            <Button type="submit" className="w-full">
-                                Continue
+                            <Button type="submit" className="w-full" disabled={isLoginPending}>
+                                {isLoginPending ? 'Sending...' : 'Continue'}
                             </Button>
                         </form>
                     ) : (
@@ -71,8 +73,8 @@ export default function LoginPage() {
                                     required
                                 />
                             </div>
-                            <Button type="submit" className="w-full">
-                                Sign In
+                            <Button type="submit" className="w-full" disabled={isVerifyPending}>
+                                {isVerifyPending ? 'Verifying...' : 'Sign In'}
                             </Button>
                             <Button type="button" variant="ghost" className="w-full" onClick={() => setStep('email')}>
                                 Back
