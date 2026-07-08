@@ -6,14 +6,14 @@
  * OpenAPI spec version: 1.0
  */
 
-export type DiscoveryControllerGetDiscoveryParams = {
+export type BlockControllerGetBlockedUsersParams = {
 /**
  * Cursor for pagination (ID of the last item from previous page)
  * @nullable
  */
 cursor?: string | null;
 /**
- * Number of users to return
+ * Number of items to return
  * @minimum 1
  * @maximum 50
  */

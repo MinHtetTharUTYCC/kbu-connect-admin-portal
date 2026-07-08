@@ -25,6 +25,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  BlockControllerGetBlockedUsersParams,
   BlockResponseDto,
   BlockUserDto,
   BlocksListResponseDto,
@@ -184,13 +185,14 @@ export const useBlockControllerUnblockUser = <TError = void,
  * @summary Get list of blocked users
  */
 export const blockControllerGetBlockedUsers = (
-
+    params?: BlockControllerGetBlockedUsersParams,
  signal?: AbortSignal
 ) => {
 
 
       return axiosInstanceFn<BlocksListResponseDto>(
-      {url: `/blocks`, method: 'GET', signal
+      {url: `/blocks`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -198,23 +200,23 @@ export const blockControllerGetBlockedUsers = (
 
 
 
-export const getBlockControllerGetBlockedUsersQueryKey = () => {
+export const getBlockControllerGetBlockedUsersQueryKey = (params?: BlockControllerGetBlockedUsersParams,) => {
     return [
-    `/blocks`
+    `/blocks`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getBlockControllerGetBlockedUsersQueryOptions = <TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
+export const getBlockControllerGetBlockedUsersQueryOptions = <TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>(params?: BlockControllerGetBlockedUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getBlockControllerGetBlockedUsersQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getBlockControllerGetBlockedUsersQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>> = ({ signal }) => blockControllerGetBlockedUsers(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>> = ({ signal }) => blockControllerGetBlockedUsers(params, signal);
 
 
 
@@ -228,7 +230,7 @@ export type BlockControllerGetBlockedUsersQueryError = unknown
 
 
 export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>> & Pick<
+ params: undefined |  BlockControllerGetBlockedUsersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>,
           TError,
@@ -238,7 +240,7 @@ export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typ
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>> & Pick<
+ params?: BlockControllerGetBlockedUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>,
           TError,
@@ -248,7 +250,7 @@ export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typ
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
+ params?: BlockControllerGetBlockedUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -256,11 +258,11 @@ export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typ
  */
 
 export function useBlockControllerGetBlockedUsers<TData = Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
+ params?: BlockControllerGetBlockedUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof blockControllerGetBlockedUsers>>, TError, TData>>, }
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getBlockControllerGetBlockedUsersQueryOptions(options)
+  const queryOptions = getBlockControllerGetBlockedUsersQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

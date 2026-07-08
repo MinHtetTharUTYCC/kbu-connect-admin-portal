@@ -2,16 +2,19 @@
 
 import { format } from 'date-fns';
 import { CheckCircle, Eye, XCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useState } from 'react';
 import { TopBar } from '@/components/layout/top-bar';
+import { Pagination } from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useBatchDismissReports } from '@/hooks/reports/use-batch-dismiss-reports';
-import { usePendingReports } from '@/hooks/reports/use-pending-reports';
 import { useReportDetail } from '@/hooks/reports/use-report-detail';
+import { useReports } from '@/hooks/reports/use-reports';
 import { useResolveReport } from '@/hooks/reports/use-resolve-report';
 
 const reasonLabels: Record<string, string> = {
@@ -22,13 +25,57 @@ const reasonLabels: Record<string, string> = {
     OTHER: 'Other'
 };
 
-export default function ReportsPage() {
-    const { data: reports, isLoading } = usePendingReports();
+function ReportsContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    const page = Math.max(1, Number(searchParams.get('page')) || 1);
+    const statusFromUrl = searchParams.get('status') ?? 'all';
+    const sortOrderFromUrl = searchParams.get('sortOrder') ?? 'desc';
+    const limit = 20;
+
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [detailId, setDetailId] = useState<string | null>(null);
     const { data: detail } = useReportDetail(detailId ?? '');
     const resolveReport = useResolveReport();
     const batchDismiss = useBatchDismissReports();
+
+    const { data, isLoading } = useReports({
+        page,
+        limit,
+        status: statusFromUrl !== 'all' ? (statusFromUrl as 'PENDING' | 'RESOLVED' | 'DISMISSED') : undefined,
+        sortOrder: sortOrderFromUrl as 'asc' | 'desc'
+    });
+
+    const reports = data?.reports ?? [];
+    const totalPages = data?.totalPages ?? 1;
+
+    const updateSearchParams = useCallback(
+        (key: string, value: string, resetPage = false) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (value === '' || value === 'all') {
+                params.delete(key);
+            } else {
+                params.set(key, value);
+            }
+            if (resetPage) params.delete('page');
+            router.replace(`/reports?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
+
+    const setPage = useCallback(
+        (p: number) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (p <= 1) {
+                params.delete('page');
+            } else {
+                params.set('page', String(p));
+            }
+            router.replace(`/reports?${params.toString()}`);
+        },
+        [searchParams, router]
+    );
 
     const toggleSelect = (id: string) => {
         setSelectedIds((prev) => {
@@ -62,14 +109,37 @@ export default function ReportsPage() {
                 }
             />
             <div className="p-6">
+                <div className="mb-4 flex items-center gap-2">
+                    <Select value={statusFromUrl} onValueChange={(value) => updateSearchParams('status', value, true)}>
+                        <SelectTrigger className="w-[160px]">
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Status</SelectItem>
+                            <SelectItem value="PENDING">Pending</SelectItem>
+                            <SelectItem value="RESOLVED">Resolved</SelectItem>
+                            <SelectItem value="DISMISSED">Dismissed</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select value={sortOrderFromUrl} onValueChange={(value) => updateSearchParams('sortOrder', value, true)}>
+                        <SelectTrigger className="w-[140px]">
+                            <SelectValue placeholder="Sort" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="desc">Newest</SelectItem>
+                            <SelectItem value="asc">Oldest</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 {isLoading ? (
                     <div className="space-y-2">
                         {[1, 2, 3].map((i) => (
                             <div key={i} className="h-12 animate-pulse rounded bg-muted" />
                         ))}
                     </div>
-                ) : !reports || reports.length === 0 ? (
-                    <p className="text-center text-muted-foreground">No pending reports.</p>
+                ) : reports.length === 0 ? (
+                    <p className="text-center text-muted-foreground">No reports found.</p>
                 ) : (
                     <Table>
                         <TableHeader>
@@ -80,6 +150,7 @@ export default function ReportsPage() {
                                 <TableHead>Reporter</TableHead>
                                 <TableHead>Reported</TableHead>
                                 <TableHead>Reason</TableHead>
+                                <TableHead>Status</TableHead>
                                 <TableHead>Date</TableHead>
                                 <TableHead>Actions</TableHead>
                             </TableRow>
@@ -95,32 +166,45 @@ export default function ReportsPage() {
                                     <TableCell>
                                         <Badge variant="outline">{reasonLabels[report.reason] ?? report.reason}</Badge>
                                     </TableCell>
+                                    <TableCell>
+                                        <Badge variant={report.status === 'PENDING' ? 'default' : report.status === 'RESOLVED' ? 'secondary' : 'destructive'}>
+                                            {report.status}
+                                        </Badge>
+                                    </TableCell>
                                     <TableCell>{format(new Date(report.createdAt), 'MMM d, yyyy')}</TableCell>
                                     <TableCell>
                                         <div className="flex gap-1">
                                             <Button variant="ghost" size="sm" onClick={() => setDetailId(report.id)}>
                                                 <Eye className="h-4 w-4" />
                                             </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => resolveReport.mutate({ id: report.id, data: { action: 'RESOLVE' } })}
-                                            >
-                                                <CheckCircle className="h-4 w-4 text-green-600" />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => resolveReport.mutate({ id: report.id, data: { action: 'DISMISS' } })}
-                                            >
-                                                <XCircle className="h-4 w-4 text-destructive" />
-                                            </Button>
+                                            {report.status === 'PENDING' && (
+                                                <>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => resolveReport.mutate({ id: report.id, data: { action: 'RESOLVE' } })}
+                                                    >
+                                                        <CheckCircle className="h-4 w-4 text-green-600" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => resolveReport.mutate({ id: report.id, data: { action: 'DISMISS' } })}
+                                                    >
+                                                        <XCircle className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                </>
+                                            )}
                                         </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
+                )}
+
+                {!isLoading && reports.length > 0 && (
+                    <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
                 )}
             </div>
 
@@ -173,5 +257,13 @@ export default function ReportsPage() {
                 </DialogContent>
             </Dialog>
         </div>
+    );
+}
+
+export default function ReportsPage() {
+    return (
+        <Suspense>
+            <ReportsContent />
+        </Suspense>
     );
 }

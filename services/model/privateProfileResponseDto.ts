@@ -16,64 +16,64 @@ import type { PrivateProfileResponseDtoPreferredGender } from './privateProfileR
 import type { PrivateProfileResponseDtoPreferredNationalitiesItem } from './privateProfileResponseDtoPreferredNationalitiesItem';
 
 export interface PrivateProfileResponseDto {
-    /** User ID */
-    id: string;
-    /** Email */
-    email: string;
-    /** Name */
-    name: string;
-    /**
+  /** User ID */
+  id: string;
+  /** Email */
+  email: string;
+  /** Name */
+  name: string;
+  /**
      * Avatar URL
      * @nullable
      */
-    avatarUrl: string | null;
-    /**
+  avatarUrl: string | null;
+  /**
      * Bio
      * @nullable
      */
-    bio: string | null;
-    /** Gender */
-    gender: PrivateProfileResponseDtoGender;
-    /**
+  bio: string | null;
+  /** Gender */
+  gender: PrivateProfileResponseDtoGender;
+  /**
      * Faculty
      * @nullable
      */
-    faculty: PrivateProfileResponseDtoFaculty;
-    /**
+  faculty: PrivateProfileResponseDtoFaculty;
+  /**
      * Nationality
      * @nullable
      */
-    nationality: PrivateProfileResponseDtoNationality;
-    /** List of interests */
-    interests: PrivateProfileResponseDtoInterestsItem[];
-    /**
+  nationality: PrivateProfileResponseDtoNationality;
+  /** List of interests */
+  interests: PrivateProfileResponseDtoInterestsItem[];
+  /**
      * What the user is looking for
      * @nullable
      */
-    lookingFor: PrivateProfileResponseDtoLookingFor;
-    /**
+  lookingFor: PrivateProfileResponseDtoLookingFor;
+  /**
      * Birth year
      * @nullable
      */
-    birthYear: number | null;
-    /**
+  birthYear: number | null;
+  /**
      * Minimum preferred age
      * @nullable
      */
-    minPreferredAge: number | null;
-    /**
+  minPreferredAge: number | null;
+  /**
      * Maximum preferred age
      * @nullable
      */
-    maxPreferredAge: number | null;
-    /** Preferred gender */
-    preferredGender: PrivateProfileResponseDtoPreferredGender;
-    /** Preferred nationalities */
-    preferredNationalities: PrivateProfileResponseDtoPreferredNationalitiesItem[];
-    /** Preferred faculties */
-    preferredFaculties: PrivateProfileResponseDtoPreferredFacultiesItem[];
-    /** User gallery items */
-    gallery: GalleryItemResponseDto[];
-    /** Whether the user is discoverable in the feed */
-    isDiscoverable: boolean;
+  maxPreferredAge: number | null;
+  /** Preferred gender */
+  preferredGender: PrivateProfileResponseDtoPreferredGender;
+  /** Preferred nationalities */
+  preferredNationalities: PrivateProfileResponseDtoPreferredNationalitiesItem[];
+  /** Preferred faculties */
+  preferredFaculties: PrivateProfileResponseDtoPreferredFacultiesItem[];
+  /** User gallery items */
+  gallery: GalleryItemResponseDto[];
+  /** Whether the user is discoverable in the feed */
+  isDiscoverable: boolean;
 }

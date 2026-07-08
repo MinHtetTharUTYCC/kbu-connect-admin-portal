@@ -6,13 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-/**
- * Report status
- */
-export type ReportItemDtoStatus = typeof ReportItemDtoStatus[keyof typeof ReportItemDtoStatus];
+export type ReportsControllerGetReportsStatus = typeof ReportsControllerGetReportsStatus[keyof typeof ReportsControllerGetReportsStatus];
 
 
-export const ReportItemDtoStatus = {
+export const ReportsControllerGetReportsStatus = {
   PENDING: 'PENDING',
   RESOLVED: 'RESOLVED',
   DISMISSED: 'DISMISSED',

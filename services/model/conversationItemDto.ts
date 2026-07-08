@@ -9,13 +9,13 @@ import type { MessageItemDto } from './messageItemDto';
 import type { UserPreviewDto } from './userPreviewDto';
 
 export interface ConversationItemDto {
-    id: string;
-    otherUser: UserPreviewDto;
-    isOnline: boolean;
-    /** @nullable */
-    lastOnline: string | null;
-    lastMessage: MessageItemDto | null;
-    /** Whether there is a new message from the other user that I haven't seen */
-    isRead: boolean;
-    updatedAt: string;
+  id: string;
+  otherUser: UserPreviewDto;
+  isOnline: boolean;
+  /** @nullable */
+  lastOnline: string | null;
+  lastMessage: MessageItemDto | null;
+  /** Whether there is a new message from the other user that I haven't seen */
+  isRead: boolean;
+  updatedAt: string;
 }

@@ -7,8 +7,8 @@
  */
 
 export interface BatchDismissReportsResponseDto {
-    /** Dismissal result message */
-    message: string;
-    /** Number of dismissed reports */
-    count: number;
+  /** Dismissal result message */
+  message: string;
+  /** Number of dismissed reports */
+  count: number;
 }

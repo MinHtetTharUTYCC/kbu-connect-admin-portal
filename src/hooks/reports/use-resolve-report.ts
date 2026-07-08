@@ -11,7 +11,7 @@ export function useResolveReport() {
     return useReportsControllerResolveReport({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['/reports/pending'] });
+                queryClient.invalidateQueries({ queryKey: ['/reports'] });
                 queryClient.invalidateQueries({ queryKey: ['/admin/stats'] });
                 toast.success('Report resolved');
             },

@@ -13,53 +13,53 @@ import type { PublicUserProfileDtoLookingFor } from './publicUserProfileDtoLooki
 import type { PublicUserProfileDtoNationality } from './publicUserProfileDtoNationality';
 
 export interface PublicUserProfileDto {
-    /** User ID */
-    id: string;
-    /** Name */
-    name: string;
-    /**
+  /** User ID */
+  id: string;
+  /** Name */
+  name: string;
+  /**
      * Avatar URL
      * @nullable
      */
-    avatarUrl: string | null;
-    /**
+  avatarUrl: string | null;
+  /**
      * Bio
      * @nullable
      */
-    bio: string | null;
-    /** Gender */
-    gender: PublicUserProfileDtoGender;
-    /**
+  bio: string | null;
+  /** Gender */
+  gender: PublicUserProfileDtoGender;
+  /**
      * Faculty
      * @nullable
      */
-    faculty: PublicUserProfileDtoFaculty;
-    /**
+  faculty: PublicUserProfileDtoFaculty;
+  /**
      * Nationality
      * @nullable
      */
-    nationality: PublicUserProfileDtoNationality;
-    /** List of interests */
-    interests: PublicUserProfileDtoInterestsItem[];
-    /**
+  nationality: PublicUserProfileDtoNationality;
+  /** List of interests */
+  interests: PublicUserProfileDtoInterestsItem[];
+  /**
      * What the user is looking for
      * @nullable
      */
-    lookingFor: PublicUserProfileDtoLookingFor;
-    /**
+  lookingFor: PublicUserProfileDtoLookingFor;
+  /**
      * Birth year
      * @nullable
      */
-    birthYear: number | null;
-    /** User gallery items */
-    gallery: GalleryItemResponseDto[];
-    /** Indicates if the user is matched */
-    isMatched: boolean;
-    /** Indicates if the user is online */
-    isOnline: boolean;
-    /**
+  birthYear: number | null;
+  /** User gallery items */
+  gallery: GalleryItemResponseDto[];
+  /** Indicates if the user is matched */
+  isMatched: boolean;
+  /** Indicates if the user is online */
+  isOnline: boolean;
+  /**
      * Last online timestamp
      * @nullable
      */
-    lastOnline: string | null;
+  lastOnline: string | null;
 }

@@ -31,7 +31,9 @@ import type {
   ReportDetailsResponseDto,
   ReportItemDto,
   ReportsControllerBatchDismissReportsBody,
-  ReportsControllerResolveReportBody
+  ReportsControllerGetReportsParams,
+  ReportsControllerResolveReportBody,
+  ReportsListResponseDto
 } from '../../model';
 
 import { axiosInstanceFn } from '../../../src/lib/axios/axios-instance';
@@ -119,16 +121,17 @@ export const useReportsControllerCreateReport = <TError = void,
       return useMutation(getReportsControllerCreateReportMutationOptions(options), queryClient);
     }
     /**
- * @summary Admin: Get all pending reports
+ * @summary Admin: Get reports with optional status filter
  */
-export const reportsControllerGetPendingReports = (
-
+export const reportsControllerGetReports = (
+    params?: ReportsControllerGetReportsParams,
  signal?: AbortSignal
 ) => {
 
 
-      return axiosInstanceFn<ReportItemDto[]>(
-      {url: `/reports/pending`, method: 'GET', signal
+      return axiosInstanceFn<ReportsListResponseDto>(
+      {url: `/reports`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -136,69 +139,69 @@ export const reportsControllerGetPendingReports = (
 
 
 
-export const getReportsControllerGetPendingReportsQueryKey = () => {
+export const getReportsControllerGetReportsQueryKey = (params?: ReportsControllerGetReportsParams,) => {
     return [
-    `/reports/pending`
+    `/reports`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getReportsControllerGetPendingReportsQueryOptions = <TData = Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData>>, }
+export const getReportsControllerGetReportsQueryOptions = <TData = Awaited<ReturnType<typeof reportsControllerGetReports>>, TError = unknown>(params?: ReportsControllerGetReportsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getReportsControllerGetPendingReportsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getReportsControllerGetReportsQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>> = ({ signal }) => reportsControllerGetPendingReports(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof reportsControllerGetReports>>> = ({ signal }) => reportsControllerGetReports(params, signal);
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type ReportsControllerGetPendingReportsQueryResult = NonNullable<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>>
-export type ReportsControllerGetPendingReportsQueryError = unknown
+export type ReportsControllerGetReportsQueryResult = NonNullable<Awaited<ReturnType<typeof reportsControllerGetReports>>>
+export type ReportsControllerGetReportsQueryError = unknown
 
 
-export function useReportsControllerGetPendingReports<TData = Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData>> & Pick<
+export function useReportsControllerGetReports<TData = Awaited<ReturnType<typeof reportsControllerGetReports>>, TError = unknown>(
+ params: undefined |  ReportsControllerGetReportsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof reportsControllerGetPendingReports>>,
+          Awaited<ReturnType<typeof reportsControllerGetReports>>,
           TError,
-          Awaited<ReturnType<typeof reportsControllerGetPendingReports>>
+          Awaited<ReturnType<typeof reportsControllerGetReports>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useReportsControllerGetPendingReports<TData = Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData>> & Pick<
+export function useReportsControllerGetReports<TData = Awaited<ReturnType<typeof reportsControllerGetReports>>, TError = unknown>(
+ params?: ReportsControllerGetReportsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof reportsControllerGetPendingReports>>,
+          Awaited<ReturnType<typeof reportsControllerGetReports>>,
           TError,
-          Awaited<ReturnType<typeof reportsControllerGetPendingReports>>
+          Awaited<ReturnType<typeof reportsControllerGetReports>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useReportsControllerGetPendingReports<TData = Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData>>, }
+export function useReportsControllerGetReports<TData = Awaited<ReturnType<typeof reportsControllerGetReports>>, TError = unknown>(
+ params?: ReportsControllerGetReportsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Admin: Get all pending reports
+ * @summary Admin: Get reports with optional status filter
  */
 
-export function useReportsControllerGetPendingReports<TData = Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetPendingReports>>, TError, TData>>, }
+export function useReportsControllerGetReports<TData = Awaited<ReturnType<typeof reportsControllerGetReports>>, TError = unknown>(
+ params?: ReportsControllerGetReportsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof reportsControllerGetReports>>, TError, TData>>, }
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getReportsControllerGetPendingReportsQueryOptions(options)
+  const queryOptions = getReportsControllerGetReportsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

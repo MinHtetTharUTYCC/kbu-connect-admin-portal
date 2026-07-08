@@ -7,7 +7,7 @@
  */
 
 export interface GalleryItemResponseDto {
-    id: string;
-    order: number;
-    imageUrl: string;
+  id: string;
+  order: number;
+  imageUrl: string;
 }

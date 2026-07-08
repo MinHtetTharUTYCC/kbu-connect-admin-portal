@@ -7,6 +7,6 @@
  */
 
 export interface UpdateMessageDto {
-    /** Updated message content */
-    content: string;
+  /** Updated message content */
+  content: string;
 }

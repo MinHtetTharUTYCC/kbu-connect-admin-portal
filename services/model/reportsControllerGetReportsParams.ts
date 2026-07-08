@@ -5,9 +5,10 @@
  * Exclusive dating platform for KBU students
  * OpenAPI spec version: 1.0
  */
-import type { AdminControllerGetUsersSortOrder } from './adminControllerGetUsersSortOrder';
+import type { ReportsControllerGetReportsSortOrder } from './reportsControllerGetReportsSortOrder';
+import type { ReportsControllerGetReportsStatus } from './reportsControllerGetReportsStatus';
 
-export type AdminControllerGetUsersParams = {
+export type ReportsControllerGetReportsParams = {
 /**
  * Page number for pagination (default: 1)
  * @minimum 1
@@ -22,13 +23,9 @@ limit?: number;
 /**
  * Sort order for createdAt (default: desc)
  */
-sortOrder?: AdminControllerGetUsersSortOrder;
+sortOrder?: ReportsControllerGetReportsSortOrder;
 /**
- * Search term to filter users by name or email
+ * Filter by report status
  */
-search?: string;
-/**
- * Filter users by banned status
- */
-isBanned?: boolean;
+status?: ReportsControllerGetReportsStatus;
 };

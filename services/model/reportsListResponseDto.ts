@@ -5,15 +5,17 @@
  * Exclusive dating platform for KBU students
  * OpenAPI spec version: 1.0
  */
-import type { AuditLogItemDto } from './auditLogItemDto';
+import type { ReportItemDto } from './reportItemDto';
 
-export interface AuditLogsResponseDto {
-  /** Total audit logs */
+export interface ReportsListResponseDto {
+  /** List of reports */
+  reports: ReportItemDto[];
+  /** Total number of reports */
   total: number;
   /** Current page number */
   page: number;
   /** Items per page */
   limit: number;
-  /** Audit logs */
-  logs: AuditLogItemDto[];
+  /** Total number of pages */
+  totalPages: number;
 }

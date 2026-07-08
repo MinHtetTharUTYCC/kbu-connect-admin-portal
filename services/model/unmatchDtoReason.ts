@@ -9,11 +9,12 @@
 /**
  * Reason for unmatching
  */
-export type UnmatchDtoReason = (typeof UnmatchDtoReason)[keyof typeof UnmatchDtoReason];
+export type UnmatchDtoReason = typeof UnmatchDtoReason[keyof typeof UnmatchDtoReason];
+
 
 export const UnmatchDtoReason = {
-    NOT_INTERESTED: 'NOT_INTERESTED',
-    OTHER: 'OTHER',
-    ABUSE: 'ABUSE',
-    SPAM: 'SPAM'
+  NOT_INTERESTED: 'NOT_INTERESTED',
+  OTHER: 'OTHER',
+  ABUSE: 'ABUSE',
+  SPAM: 'SPAM',
 } as const;

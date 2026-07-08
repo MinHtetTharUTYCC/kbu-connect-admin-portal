@@ -7,8 +7,8 @@
  */
 
 export interface UpdateAnnouncementDto {
-    /** Announcement title */
-    title?: string;
-    /** Announcement body */
-    body?: string;
+  /** Announcement title */
+  title?: string;
+  /** Announcement body */
+  body?: string;
 }

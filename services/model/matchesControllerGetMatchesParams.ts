@@ -7,14 +7,14 @@
  */
 
 export type MatchesControllerGetMatchesParams = {
-    /**
-     * Cursor for pagination (match ID)
-     */
-    cursor?: string;
-    /**
-     * Number of matches to return
-     * @minimum 1
-     * @maximum 50
-     */
-    limit?: number;
+/**
+ * Cursor for pagination (match ID)
+ */
+cursor?: string;
+/**
+ * Number of matches to return
+ * @minimum 1
+ * @maximum 50
+ */
+limit?: number;
 };

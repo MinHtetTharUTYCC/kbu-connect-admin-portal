@@ -9,26 +9,26 @@ import type { AuditLogItemDtoMetadata } from './auditLogItemDtoMetadata';
 import type { AuditLogProfileDto } from './auditLogProfileDto';
 
 export interface AuditLogItemDto {
-    /** Audit log ID */
-    id: string;
-    /** Audit action */
-    action: string;
-    /** Actor user ID */
-    actorId: string;
-    /**
+  /** Audit log ID */
+  id: string;
+  /** Audit action */
+  action: string;
+  /** Actor user ID */
+  actorId: string;
+  /**
      * Target user ID
      * @nullable
      */
-    targetId: string | null;
-    /**
+  targetId: string | null;
+  /**
      * Additional audit metadata
      * @nullable
      */
-    metadata: AuditLogItemDtoMetadata;
-    /** Audit timestamp */
-    timestamp: string;
-    /** Actor profile */
-    actor: AuditLogProfileDto;
-    /** Target profile */
-    target: AuditLogProfileDto | null;
+  metadata: AuditLogItemDtoMetadata;
+  /** Audit timestamp */
+  timestamp: string;
+  /** Actor profile */
+  actor: AuditLogProfileDto;
+  /** Target profile */
+  target: AuditLogProfileDto | null;
 }

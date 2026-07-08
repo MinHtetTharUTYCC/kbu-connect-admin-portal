@@ -9,10 +9,11 @@
 /**
  * Gender
  */
-export type PublicUserProfileDtoGender = (typeof PublicUserProfileDtoGender)[keyof typeof PublicUserProfileDtoGender];
+export type PublicUserProfileDtoGender = typeof PublicUserProfileDtoGender[keyof typeof PublicUserProfileDtoGender];
+
 
 export const PublicUserProfileDtoGender = {
-    MALE: 'MALE',
-    FEMALE: 'FEMALE',
-    OTHER: 'OTHER'
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER',
 } as const;

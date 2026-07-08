@@ -8,17 +8,17 @@
 import type { UserSummaryDto } from './userSummaryDto';
 
 export interface MatchItemDto {
-    /** The ID of the match */
-    id: string;
-    /** The timestamp when the match was created */
-    matchedAt: string;
-    /** Indicates if the match is new */
-    isNew: boolean;
-    /**
+  /** The ID of the match */
+  id: string;
+  /** The timestamp when the match was created */
+  matchedAt: string;
+  /** Indicates if the match is new */
+  isNew: boolean;
+  /**
      * The ID of the conversation
      * @nullable
      */
-    conversationId: string | null;
-    /** Summary of the matched user */
-    matcher: UserSummaryDto;
+  conversationId: string | null;
+  /** Summary of the matched user */
+  matcher: UserSummaryDto;
 }

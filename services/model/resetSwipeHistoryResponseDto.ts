@@ -7,6 +7,6 @@
  */
 
 export interface ResetSwipeHistoryResponseDto {
-    /** Success message */
-    message: string;
+  /** Success message */
+  message: string;
 }
