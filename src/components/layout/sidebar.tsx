@@ -40,7 +40,7 @@ export function Sidebar() {
     return (
         <aside className="flex h-screen w-64 flex-col border-r bg-sidebar text-sidebar-foreground">
             <div className="flex items-center gap-2 border-b px-6 py-5">
-                <GraduationCap className="h-6 w-6 text-primary" />
+                <GraduationCap className="h-4 w-4 text-primary" />
                 <span className="text-lg font-bold text-primary">KBU Connect</span>
             </div>
             <nav className="flex-1 space-y-1 px-3 py-4">
@@ -70,12 +70,7 @@ export function Sidebar() {
                         <p className="truncate text-xs text-muted-foreground">{user.email}</p>
                     </div>
                 )}
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full justify-start text-muted-foreground"
-                    onClick={() => setShowLogoutDialog(true)}
-                >
+                <Button className="w-full text-center" onClick={() => setShowLogoutDialog(true)}>
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                 </Button>

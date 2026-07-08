@@ -9,14 +9,14 @@ import type { ShoutoutItemDtoType } from './shoutoutItemDtoType';
 import type { ShoutoutOtherUserDto } from './shoutoutOtherUserDto';
 
 export interface ShoutoutItemDto {
-  /** Shoutout ID */
-  id: string;
-  /** Shoutout message content */
-  content: string;
-  /** Whether this shoutout was sent or received */
-  type: ShoutoutItemDtoType;
-  /** Timestamp when the shoutout was created */
-  createdAt: string;
-  /** The other user in this shoutout */
-  otherUser: ShoutoutOtherUserDto;
+    /** Shoutout ID */
+    id: string;
+    /** Shoutout message content */
+    content: string;
+    /** Whether this shoutout was sent or received */
+    type: ShoutoutItemDtoType;
+    /** Timestamp when the shoutout was created */
+    createdAt: string;
+    /** The other user in this shoutout */
+    otherUser: ShoutoutOtherUserDto;
 }

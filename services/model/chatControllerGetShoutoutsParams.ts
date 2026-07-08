@@ -8,19 +8,19 @@
 import type { ChatControllerGetShoutoutsType } from './chatControllerGetShoutoutsType';
 
 export type ChatControllerGetShoutoutsParams = {
-/**
- * Cursor for pagination (ID of the last item from previous page)
- * @nullable
- */
-cursor?: string | null;
-/**
- * Number of items to return
- * @minimum 1
- * @maximum 50
- */
-limit?: number;
-/**
- * Filter shoutouts by type: 'sent' for sent shoutouts, 'received' for received shoutouts (default: 'received')
- */
-type?: ChatControllerGetShoutoutsType;
+    /**
+     * Cursor for pagination (ID of the last item from previous page)
+     * @nullable
+     */
+    cursor?: string | null;
+    /**
+     * Number of items to return
+     * @minimum 1
+     * @maximum 50
+     */
+    limit?: number;
+    /**
+     * Filter shoutouts by type: 'sent' for sent shoutouts, 'received' for received shoutouts (default: 'received')
+     */
+    type?: ChatControllerGetShoutoutsType;
 };

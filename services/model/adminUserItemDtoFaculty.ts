@@ -9,20 +9,19 @@
 /**
  * User faculty
  */
-export type AdminUserItemDtoFaculty = typeof AdminUserItemDtoFaculty[keyof typeof AdminUserItemDtoFaculty];
-
+export type AdminUserItemDtoFaculty = (typeof AdminUserItemDtoFaculty)[keyof typeof AdminUserItemDtoFaculty];
 
 export const AdminUserItemDtoFaculty = {
-  THAI: 'THAI',
-  ENGLISH: 'ENGLISH',
-  DTI: 'DTI',
-  HRM: 'HRM',
-  BBA: 'BBA',
-  CIVIL: 'CIVIL',
-  AVIATION: 'AVIATION',
-  ENGINEERING: 'ENGINEERING',
-  PSYCHOLOGY: 'PSYCHOLOGY',
-  LAW: 'LAW',
-  COMM_ARTS: 'COMM_ARTS',
-  ARCHITECTURE: 'ARCHITECTURE',
+    THAI: 'THAI',
+    ENGLISH: 'ENGLISH',
+    DTI: 'DTI',
+    HRM: 'HRM',
+    BBA: 'BBA',
+    CIVIL: 'CIVIL',
+    AVIATION: 'AVIATION',
+    ENGINEERING: 'ENGINEERING',
+    PSYCHOLOGY: 'PSYCHOLOGY',
+    LAW: 'LAW',
+    COMM_ARTS: 'COMM_ARTS',
+    ARCHITECTURE: 'ARCHITECTURE'
 } as const;

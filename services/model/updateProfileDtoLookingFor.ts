@@ -9,14 +9,13 @@
 /**
  * What the user is looking for
  */
-export type UpdateProfileDtoLookingFor = typeof UpdateProfileDtoLookingFor[keyof typeof UpdateProfileDtoLookingFor];
-
+export type UpdateProfileDtoLookingFor = (typeof UpdateProfileDtoLookingFor)[keyof typeof UpdateProfileDtoLookingFor];
 
 export const UpdateProfileDtoLookingFor = {
-  FRIENDS: 'FRIENDS',
-  SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
-  LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
-  NETWORKING: 'NETWORKING',
-  STUDY_PARTNER: 'STUDY_PARTNER',
-  OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING',
+    FRIENDS: 'FRIENDS',
+    SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
+    LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
+    NETWORKING: 'NETWORKING',
+    STUDY_PARTNER: 'STUDY_PARTNER',
+    OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING'
 } as const;

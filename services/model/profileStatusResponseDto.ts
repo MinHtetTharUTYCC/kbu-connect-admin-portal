@@ -9,12 +9,12 @@ import type { PrivateProfileResponseDto } from './privateProfileResponseDto';
 import type { ProfileStatus } from './profileStatus';
 
 export interface ProfileStatusResponseDto {
-  /** Success message */
-  message: string;
-  /** Indicates if the profile is complete */
-  isComplete: boolean;
-  /** Profile status */
-  status: ProfileStatus;
-  /** User profile */
-  user: PrivateProfileResponseDto;
+    /** Success message */
+    message: string;
+    /** Indicates if the profile is complete */
+    isComplete: boolean;
+    /** Profile status */
+    status: ProfileStatus;
+    /** User profile */
+    user: PrivateProfileResponseDto;
 }

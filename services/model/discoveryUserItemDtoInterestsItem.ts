@@ -6,18 +6,17 @@
  * OpenAPI spec version: 1.0
  */
 
-export type DiscoveryUserItemDtoInterestsItem = typeof DiscoveryUserItemDtoInterestsItem[keyof typeof DiscoveryUserItemDtoInterestsItem];
-
+export type DiscoveryUserItemDtoInterestsItem = (typeof DiscoveryUserItemDtoInterestsItem)[keyof typeof DiscoveryUserItemDtoInterestsItem];
 
 export const DiscoveryUserItemDtoInterestsItem = {
-  BADMINTON: 'BADMINTON',
-  MOO_KRATA: 'MOO_KRATA',
-  LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
-  TRAVEL: 'TRAVEL',
-  MUSIC: 'MUSIC',
-  SPORTS: 'SPORTS',
-  GAMING: 'GAMING',
-  COOKING: 'COOKING',
-  ART: 'ART',
-  TECHNOLOGY: 'TECHNOLOGY',
+    BADMINTON: 'BADMINTON',
+    MOO_KRATA: 'MOO_KRATA',
+    LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
+    TRAVEL: 'TRAVEL',
+    MUSIC: 'MUSIC',
+    SPORTS: 'SPORTS',
+    GAMING: 'GAMING',
+    COOKING: 'COOKING',
+    ART: 'ART',
+    TECHNOLOGY: 'TECHNOLOGY'
 } as const;

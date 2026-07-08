@@ -7,6 +7,6 @@
  */
 
 export interface ReplyShoutoutDto {
-  /** Reply message content */
-  message: string;
+    /** Reply message content */
+    message: string;
 }

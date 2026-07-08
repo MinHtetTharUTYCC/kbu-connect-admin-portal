@@ -8,11 +8,11 @@
 import type { UserPreviewDto } from './userPreviewDto';
 
 export interface ConversationDetailsResponseDto {
-  id: string;
-  participant: UserPreviewDto;
-  isOnline: boolean;
-  /** @nullable */
-  lastOnline: string | null;
-  createdAt: string;
-  updatedAt: string;
+    id: string;
+    participant: UserPreviewDto;
+    isOnline: boolean;
+    /** @nullable */
+    lastOnline: string | null;
+    createdAt: string;
+    updatedAt: string;
 }

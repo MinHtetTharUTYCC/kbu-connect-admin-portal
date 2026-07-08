@@ -7,12 +7,12 @@
  */
 
 export interface BannedUserItemDto {
-  /** User ID */
-  id: string;
-  /** User email */
-  email: string;
-  /** User name */
-  name: string;
-  /** Indicates if the user is banned */
-  isBanned: boolean;
+    /** User ID */
+    id: string;
+    /** User email */
+    email: string;
+    /** User name */
+    name: string;
+    /** Indicates if the user is banned */
+    isBanned: boolean;
 }

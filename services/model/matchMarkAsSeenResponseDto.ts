@@ -7,8 +7,8 @@
  */
 
 export interface MatchMarkAsSeenResponseDto {
-  /** Success message */
-  message: string;
-  /** ID of the match that was marked as seen */
-  matchId: string;
+    /** Success message */
+    message: string;
+    /** ID of the match that was marked as seen */
+    matchId: string;
 }

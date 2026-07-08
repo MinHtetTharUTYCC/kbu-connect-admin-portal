@@ -7,16 +7,16 @@
  */
 
 export interface ReportChatMessageDto {
-  /** Message ID */
-  id: string;
-  /** Message sender ID */
-  senderId: string;
-  /** Message receiver ID */
-  receiverId: string;
-  /** Message content */
-  content: string;
-  /** Whether the message is read */
-  isRead: boolean;
-  /** Message creation timestamp */
-  createdAt: string;
+    /** Message ID */
+    id: string;
+    /** Message sender ID */
+    senderId: string;
+    /** Message receiver ID */
+    receiverId: string;
+    /** Message content */
+    content: string;
+    /** Whether the message is read */
+    isRead: boolean;
+    /** Message creation timestamp */
+    createdAt: string;
 }

@@ -1,21 +1,14 @@
 'use client';
 
+import type { AdminControllerGetAnnouncementsParams } from '@services/model/adminControllerGetAnnouncementsParams';
 import { format } from 'date-fns';
 import { Plus, Trash2, Users } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useState } from 'react';
+import { toast } from 'sonner';
+import ActionConfirmDialog from '@/components/action-confirm-dialog';
 import { TopBar } from '@/components/layout/top-bar';
 import { Pagination } from '@/components/pagination';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -26,11 +19,16 @@ import { useAnnouncementsList } from '@/hooks/announcements/use-announcements-li
 import { useCreateAnnouncement } from '@/hooks/announcements/use-create-announcement';
 import { useDeleteAnnouncement } from '@/hooks/announcements/use-delete-announcement';
 
+function getParams(params: URLSearchParams): AdminControllerGetAnnouncementsParams {
+    const page = Math.max(1, Number(params.get('page')) || 1);
+    return { page, limit: 5 };
+}
+
 function AnnouncementsContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const page = Math.max(1, Number(searchParams.get('page')) || 1);
-    const limit = 20;
+
+    const { page, limit } = getParams(searchParams);
 
     const [showCreate, setShowCreate] = useState(false);
     const [title, setTitle] = useState('');
@@ -38,12 +36,8 @@ function AnnouncementsContent() {
     const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
     const { data, isLoading } = useAnnouncementsList({ page, limit });
-    const { mutateAsync: createAnnouncement, isPending: isCreatingAnnouncement } = useCreateAnnouncement(() => {
-        setTitle('');
-        setBody('');
-        setShowCreate(false);
-    });
-    const { mutateAsync: deleteAnnouncement, isPending: isDeletingAnnouncement } = useDeleteAnnouncement(() => setDeleteTarget(null));
+    const { mutateAsync: createAnnouncement, isPending: isCreatingAnnouncement } = useCreateAnnouncement();
+    const { mutateAsync: deleteAnnouncement, isPending: isDeletingAnnouncement } = useDeleteAnnouncement();
 
     const announcements = data?.data ?? [];
     const totalPages = data ? Math.ceil(data.total / limit) : 1;
@@ -63,31 +57,56 @@ function AnnouncementsContent() {
 
     const handleCreate = async () => {
         if (!title.trim() || !body.trim()) return;
-        await createAnnouncement({ data: { title, body } });
+        await createAnnouncement(
+            { data: { title, body } },
+            {
+                onSuccess: () => {
+                    setShowCreate(false);
+                    setTitle('');
+                    setBody('');
+                    toast.success('Announcement created and broadcasted');
+                }
+            }
+        );
+    };
+
+    const handleDelete = async () => {
+        if (deleteTarget) {
+            await deleteAnnouncement(
+                { id: deleteTarget.id },
+                {
+                    onSuccess: () => {
+                        setDeleteTarget(null);
+                        toast.success('Announcement deleted');
+                    }
+                }
+            );
+        }
     };
 
     return (
-        <div>
+        <div className="h-screen flex flex-col overflow-hidden">
             <TopBar
                 title="Announcements"
                 actions={
                     <Button onClick={() => setShowCreate(true)}>
-                        <Plus className="mr-1 h-4 w-4" />
+                        <Plus className="mr-2 h-4 w-4" />
                         New Announcement
                     </Button>
                 }
             />
-            <div className="p-6">
-                {isLoading ? (
-                    <div className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="h-24 animate-pulse rounded bg-muted" />
-                        ))}
-                    </div>
-                ) : announcements.length === 0 ? (
-                    <p className="text-center text-muted-foreground">No announcements yet.</p>
-                ) : (
-                    <>
+
+            <div className="flex-1 flex flex-col gap-4 p-4 overflow-hidden">
+                <div className="flex-1 overflow-y-auto">
+                    {isLoading ? (
+                        <div className="space-y-4">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="h-24 animate-pulse rounded bg-muted" />
+                            ))}
+                        </div>
+                    ) : announcements.length === 0 ? (
+                        <p className="text-center text-muted-foreground">No announcements yet.</p>
+                    ) : (
                         <div className="space-y-4">
                             {announcements.map((a) => (
                                 <Card key={a.id}>
@@ -112,9 +131,10 @@ function AnnouncementsContent() {
                                 </Card>
                             ))}
                         </div>
-
-                        <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
-                    </>
+                    )}
+                </div>
+                {!isLoading && announcements.length > 0 && (
+                    <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
                 )}
             </div>
 
@@ -134,7 +154,7 @@ function AnnouncementsContent() {
                                 id="body"
                                 value={body}
                                 onChange={(e) => setBody(e.target.value)}
-                                placeholder="Announcement body"
+                                placeholder="Announcement description"
                                 rows={4}
                             />
                         </div>
@@ -144,36 +164,45 @@ function AnnouncementsContent() {
                             Cancel
                         </Button>
                         <Button onClick={handleCreate} disabled={!title.trim() || !body.trim() || isCreatingAnnouncement}>
-                            {isCreatingAnnouncement ? '...' : 'Create & Broadcast'}
+                            {isCreatingAnnouncement ? 'Creating...' : 'Create & Broadcast'}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
-            <AlertDialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Announcement</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Are you sure you want to delete &quot;{deleteTarget?.title}&quot;? This will remove all notification rows for
-                            this announcement.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            disabled={isDeletingAnnouncement}
-                            onClick={async () => {
-                                if (deleteTarget) {
-                                    await deleteAnnouncement({ id: deleteTarget.id });
+            {deleteTarget && (
+                <ActionConfirmDialog
+                    title="Delete Announcement"
+                    message={`Are you sure you want to delete "${deleteTarget.title}"? This will remove all notification rows for this announcement.`}
+                    onConfirm={async () => {
+                        if (deleteTarget) {
+                            await deleteAnnouncement(
+                                { id: deleteTarget.id },
+                                {
+                                    onSuccess: () => {
+                                        setDeleteTarget(null);
+                                        toast.success('Announcement deleted');
+                                    }
                                 }
-                            }}
-                        >
-                            Delete
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                            );
+                        }
+                    }}
+                    onClose={() => setDeleteTarget(null)}
+                    isPending={isDeletingAnnouncement}
+                    action="Delete"
+                />
+            )}
+
+            {deleteTarget && (
+                <ActionConfirmDialog
+                    title={'Delete Announcement'}
+                    message={`Are you sure you want to delete "${deleteTarget.title}"? This will remove all notification rows for this announcement.`}
+                    onConfirm={handleDelete}
+                    onClose={() => setDeleteTarget(null)}
+                    isPending={isDeletingAnnouncement}
+                    action={'Delete'}
+                />
+            )}
         </div>
     );
 }

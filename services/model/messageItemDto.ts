@@ -7,12 +7,12 @@
  */
 
 export interface MessageItemDto {
-  /** Message ID */
-  id: string;
-  /** Message content */
-  content: string;
-  /** ID of the message sender */
-  senderId: string;
-  /** Timestamp when the message was sent */
-  timestamp: string;
+    /** Message ID */
+    id: string;
+    /** Message content */
+    content: string;
+    /** ID of the message sender */
+    senderId: string;
+    /** Timestamp when the message was sent */
+    timestamp: string;
 }

@@ -7,6 +7,6 @@
  */
 
 export interface SuccessMessageResponseDto {
-  /** Success message */
-  message: string;
+    /** Success message */
+    message: string;
 }

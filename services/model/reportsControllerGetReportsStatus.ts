@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ReportsControllerGetReportsStatus = typeof ReportsControllerGetReportsStatus[keyof typeof ReportsControllerGetReportsStatus];
-
+export type ReportsControllerGetReportsStatus = (typeof ReportsControllerGetReportsStatus)[keyof typeof ReportsControllerGetReportsStatus];
 
 export const ReportsControllerGetReportsStatus = {
-  PENDING: 'PENDING',
-  RESOLVED: 'RESOLVED',
-  DISMISSED: 'DISMISSED',
+    PENDING: 'PENDING',
+    RESOLVED: 'RESOLVED',
+    DISMISSED: 'DISMISSED'
 } as const;

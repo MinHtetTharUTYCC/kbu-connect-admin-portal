@@ -11,29 +11,29 @@ import type { ReportDetailsResponseDtoStatus } from './reportDetailsResponseDtoS
 import type { ReportUserWithBanStatusDto } from './reportUserWithBanStatusDto';
 
 export interface ReportDetailsResponseDto {
-  /** Report ID */
-  id: string;
-  /** Reporter user ID */
-  reporterId: string;
-  /** Reported user ID */
-  reportedId: string;
-  /** Report reason */
-  reason: ReportDetailsResponseDtoReason;
-  /**
+    /** Report ID */
+    id: string;
+    /** Reporter user ID */
+    reporterId: string;
+    /** Reported user ID */
+    reportedId: string;
+    /** Report reason */
+    reason: ReportDetailsResponseDtoReason;
+    /**
      * Report description
      * @nullable
      */
-  description: string | null;
-  /** Report status */
-  status: ReportDetailsResponseDtoStatus;
-  /** Report creation timestamp */
-  createdAt: string;
-  /** Report update timestamp */
-  updatedAt: string;
-  /** Reporter details */
-  reporter: ReportUserWithBanStatusDto;
-  /** Reported user details */
-  reported: ReportUserWithBanStatusDto;
-  /** Recent chat context */
-  chatContext: ReportChatMessageDto[];
+    description: string | null;
+    /** Report status */
+    status: ReportDetailsResponseDtoStatus;
+    /** Report creation timestamp */
+    createdAt: string;
+    /** Report update timestamp */
+    updatedAt: string;
+    /** Reporter details */
+    reporter: ReportUserWithBanStatusDto;
+    /** Reported user details */
+    reported: ReportUserWithBanStatusDto;
+    /** Recent chat context */
+    chatContext: ReportChatMessageDto[];
 }

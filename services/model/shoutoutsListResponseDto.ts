@@ -8,11 +8,11 @@
 import type { ShoutoutItemDto } from './shoutoutItemDto';
 
 export interface ShoutoutsListResponseDto {
-  /** List of shoutouts */
-  shoutouts: ShoutoutItemDto[];
-  /**
+    /** List of shoutouts */
+    shoutouts: ShoutoutItemDto[];
+    /**
      * Cursor for pagination (null if no more shoutouts)
      * @nullable
      */
-  nextCursor: string | null;
+    nextCursor: string | null;
 }

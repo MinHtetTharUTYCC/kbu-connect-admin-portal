@@ -7,13 +7,13 @@
  */
 
 export interface ShoutoutOtherUserDto {
-  /** User ID */
-  id: string;
-  /** User name */
-  name: string;
-  /**
+    /** User ID */
+    id: string;
+    /** User name */
+    name: string;
+    /**
      * Avatar URL
      * @nullable
      */
-  avatarUrl: string | null;
+    avatarUrl: string | null;
 }

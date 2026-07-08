@@ -1,19 +1,25 @@
 'use client';
 
-import { useReportsControllerResolveReport } from '@services/generated/reports/reports';
+import { getAdminControllerGetStatsQueryKey } from '@services/generated/admin/admin';
+import { getReportsControllerGetReportsQueryKey, useReportsControllerResolveReport } from '@services/generated/reports/reports';
+import type { ReportsListResponseDto } from '@services/model/reportsListResponseDto';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import { handleBackendError } from '@/lib/error/error-util';
 
 export function useResolveReport() {
     const queryClient = useQueryClient();
+    const reportsListQueryKey = getReportsControllerGetReportsQueryKey();
 
     return useReportsControllerResolveReport({
         mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['/reports'] });
-                queryClient.invalidateQueries({ queryKey: ['/admin/stats'] });
-                toast.success('Report resolved');
+            onSuccess: ({ id }) => {
+                queryClient.setQueryData<ReportsListResponseDto>(reportsListQueryKey, (oldData) => {
+                    if (!oldData) return oldData;
+
+                    return { ...oldData, reports: oldData.reports.filter((report) => report.id !== id) };
+                });
+
+                queryClient.invalidateQueries({ queryKey: getAdminControllerGetStatsQueryKey() });
             },
             onError: (error) => handleBackendError(error)
         }

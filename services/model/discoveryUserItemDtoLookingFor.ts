@@ -10,14 +10,13 @@
  * What the user is looking for
  * @nullable
  */
-export type DiscoveryUserItemDtoLookingFor = typeof DiscoveryUserItemDtoLookingFor[keyof typeof DiscoveryUserItemDtoLookingFor] | null;
-
+export type DiscoveryUserItemDtoLookingFor = (typeof DiscoveryUserItemDtoLookingFor)[keyof typeof DiscoveryUserItemDtoLookingFor] | null;
 
 export const DiscoveryUserItemDtoLookingFor = {
-  FRIENDS: 'FRIENDS',
-  SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
-  LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
-  NETWORKING: 'NETWORKING',
-  STUDY_PARTNER: 'STUDY_PARTNER',
-  OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING',
+    FRIENDS: 'FRIENDS',
+    SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
+    LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
+    NETWORKING: 'NETWORKING',
+    STUDY_PARTNER: 'STUDY_PARTNER',
+    OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING'
 } as const;

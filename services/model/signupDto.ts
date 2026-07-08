@@ -7,6 +7,6 @@
  */
 
 export interface SignupDto {
-  /** The email address of the user. Must be a @ms.kbu.ac.th email. */
-  email: string;
+    /** The email address of the user. Must be a @ms.kbu.ac.th email. */
+    email: string;
 }

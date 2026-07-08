@@ -8,27 +8,27 @@
 import type { AdminControllerGetUsersSortOrder } from './adminControllerGetUsersSortOrder';
 
 export type AdminControllerGetUsersParams = {
-/**
- * Page number for pagination (default: 1)
- * @minimum 1
- */
-page?: number;
-/**
- * Number of items to return per page (default: 20)
- * @minimum 1
- * @maximum 50
- */
-limit?: number;
-/**
- * Sort order for createdAt (default: desc)
- */
-sortOrder?: AdminControllerGetUsersSortOrder;
-/**
- * Search term to filter users by name or email
- */
-search?: string;
-/**
- * Filter users by banned status
- */
-isBanned?: boolean;
+    /**
+     * Page number for pagination (default: 1)
+     * @minimum 1
+     */
+    page?: number;
+    /**
+     * Number of items to return per page (default: 20)
+     * @minimum 1
+     * @maximum 50
+     */
+    limit?: number;
+    /**
+     * Sort order for createdAt (default: desc)
+     */
+    sortOrder?: AdminControllerGetUsersSortOrder;
+    /**
+     * Search term to filter users by name or email
+     */
+    search?: string;
+    /**
+     * Filter users by banned status
+     */
+    isBanned?: boolean;
 };

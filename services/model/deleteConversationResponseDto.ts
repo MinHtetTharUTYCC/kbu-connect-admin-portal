@@ -7,7 +7,7 @@
  */
 
 export interface DeleteConversationResponseDto {
-  /** Success message */
-  message: string;
-  conversationId: string;
+    /** Success message */
+    message: string;
+    conversationId: string;
 }

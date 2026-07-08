@@ -7,5 +7,5 @@
  */
 
 export type ReportsControllerBatchDismissReportsBody = {
-  reportIds?: string[];
+    reportIds?: string[];
 };

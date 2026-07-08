@@ -6,20 +6,20 @@
  * OpenAPI spec version: 1.0
  */
 
-export type PrivateProfileResponseDtoPreferredFacultiesItem = typeof PrivateProfileResponseDtoPreferredFacultiesItem[keyof typeof PrivateProfileResponseDtoPreferredFacultiesItem];
-
+export type PrivateProfileResponseDtoPreferredFacultiesItem =
+    (typeof PrivateProfileResponseDtoPreferredFacultiesItem)[keyof typeof PrivateProfileResponseDtoPreferredFacultiesItem];
 
 export const PrivateProfileResponseDtoPreferredFacultiesItem = {
-  THAI: 'THAI',
-  ENGLISH: 'ENGLISH',
-  DTI: 'DTI',
-  HRM: 'HRM',
-  BBA: 'BBA',
-  CIVIL: 'CIVIL',
-  AVIATION: 'AVIATION',
-  ENGINEERING: 'ENGINEERING',
-  PSYCHOLOGY: 'PSYCHOLOGY',
-  LAW: 'LAW',
-  COMM_ARTS: 'COMM_ARTS',
-  ARCHITECTURE: 'ARCHITECTURE',
+    THAI: 'THAI',
+    ENGLISH: 'ENGLISH',
+    DTI: 'DTI',
+    HRM: 'HRM',
+    BBA: 'BBA',
+    CIVIL: 'CIVIL',
+    AVIATION: 'AVIATION',
+    ENGINEERING: 'ENGINEERING',
+    PSYCHOLOGY: 'PSYCHOLOGY',
+    LAW: 'LAW',
+    COMM_ARTS: 'COMM_ARTS',
+    ARCHITECTURE: 'ARCHITECTURE'
 } as const;

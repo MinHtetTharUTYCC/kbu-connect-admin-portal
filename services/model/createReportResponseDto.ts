@@ -7,7 +7,7 @@
  */
 
 export interface CreateReportResponseDto {
-  message: string;
-  /** Created report ID */
-  reportId: string;
+    message: string;
+    /** Created report ID */
+    reportId: string;
 }

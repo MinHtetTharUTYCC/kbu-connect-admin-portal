@@ -7,6 +7,6 @@
  */
 
 export interface AdminLoginDto {
-  /** The email address of the admin user. */
-  email: string;
+    /** The email address of the admin user. */
+    email: string;
 }

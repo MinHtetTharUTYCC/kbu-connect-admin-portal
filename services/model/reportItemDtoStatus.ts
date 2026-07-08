@@ -9,11 +9,10 @@
 /**
  * Report status
  */
-export type ReportItemDtoStatus = typeof ReportItemDtoStatus[keyof typeof ReportItemDtoStatus];
-
+export type ReportItemDtoStatus = (typeof ReportItemDtoStatus)[keyof typeof ReportItemDtoStatus];
 
 export const ReportItemDtoStatus = {
-  PENDING: 'PENDING',
-  RESOLVED: 'RESOLVED',
-  DISMISSED: 'DISMISSED',
+    PENDING: 'PENDING',
+    RESOLVED: 'RESOLVED',
+    DISMISSED: 'DISMISSED'
 } as const;

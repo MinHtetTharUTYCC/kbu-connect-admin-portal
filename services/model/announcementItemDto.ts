@@ -7,14 +7,14 @@
  */
 
 export interface AnnouncementItemDto {
-  /** Announcement ID */
-  id: string;
-  /** Announcement title */
-  title: string;
-  /** Announcement body */
-  body: string;
-  /** Number of users who received this announcement */
-  recipientCount: number;
-  /** Creation timestamp */
-  createdAt: string;
+    /** Announcement ID */
+    id: string;
+    /** Announcement title */
+    title: string;
+    /** Announcement body */
+    body: string;
+    /** Number of users who received this announcement */
+    recipientCount: number;
+    /** Creation timestamp */
+    createdAt: string;
 }

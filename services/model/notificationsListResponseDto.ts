@@ -8,11 +8,11 @@
 import type { NotificationItemDto } from './notificationItemDto';
 
 export interface NotificationsListResponseDto {
-  /** List of notifications */
-  notifications: NotificationItemDto[];
-  /**
+    /** List of notifications */
+    notifications: NotificationItemDto[];
+    /**
      * Cursor for pagination (null if no more notifications)
      * @nullable
      */
-  nextCursor: string | null;
+    nextCursor: string | null;
 }

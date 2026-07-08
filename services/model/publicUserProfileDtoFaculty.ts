@@ -10,20 +10,19 @@
  * Faculty
  * @nullable
  */
-export type PublicUserProfileDtoFaculty = typeof PublicUserProfileDtoFaculty[keyof typeof PublicUserProfileDtoFaculty] | null;
-
+export type PublicUserProfileDtoFaculty = (typeof PublicUserProfileDtoFaculty)[keyof typeof PublicUserProfileDtoFaculty] | null;
 
 export const PublicUserProfileDtoFaculty = {
-  THAI: 'THAI',
-  ENGLISH: 'ENGLISH',
-  DTI: 'DTI',
-  HRM: 'HRM',
-  BBA: 'BBA',
-  CIVIL: 'CIVIL',
-  AVIATION: 'AVIATION',
-  ENGINEERING: 'ENGINEERING',
-  PSYCHOLOGY: 'PSYCHOLOGY',
-  LAW: 'LAW',
-  COMM_ARTS: 'COMM_ARTS',
-  ARCHITECTURE: 'ARCHITECTURE',
+    THAI: 'THAI',
+    ENGLISH: 'ENGLISH',
+    DTI: 'DTI',
+    HRM: 'HRM',
+    BBA: 'BBA',
+    CIVIL: 'CIVIL',
+    AVIATION: 'AVIATION',
+    ENGINEERING: 'ENGINEERING',
+    PSYCHOLOGY: 'PSYCHOLOGY',
+    LAW: 'LAW',
+    COMM_ARTS: 'COMM_ARTS',
+    ARCHITECTURE: 'ARCHITECTURE'
 } as const;

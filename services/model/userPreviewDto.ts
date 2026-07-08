@@ -7,8 +7,8 @@
  */
 
 export interface UserPreviewDto {
-  id: string;
-  name: string;
-  /** @nullable */
-  avatarUrl: string | null;
+    id: string;
+    name: string;
+    /** @nullable */
+    avatarUrl: string | null;
 }

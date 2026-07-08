@@ -8,11 +8,11 @@
 import type { MatchItemDto } from './matchItemDto';
 
 export interface MatchListResponseDto {
-  /** List of matches */
-  matches: MatchItemDto[];
-  /**
+    /** List of matches */
+    matches: MatchItemDto[];
+    /**
      * Cursor for pagination (null if no more matches)
      * @nullable
      */
-  nextCursor: string | null;
+    nextCursor: string | null;
 }
