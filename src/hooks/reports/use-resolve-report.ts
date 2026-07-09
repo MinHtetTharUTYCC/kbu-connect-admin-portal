@@ -4,7 +4,6 @@ import { getAdminControllerGetStatsQueryKey } from '@services/generated/admin/ad
 import { getReportsControllerGetReportsQueryKey, useReportsControllerResolveReport } from '@services/generated/reports/reports';
 import type { ReportsListResponseDto } from '@services/model/reportsListResponseDto';
 import { useQueryClient } from '@tanstack/react-query';
-import { handleBackendError } from '@/lib/error/error-util';
 
 export function useResolveReport() {
     const queryClient = useQueryClient();
@@ -20,8 +19,7 @@ export function useResolveReport() {
                 });
 
                 queryClient.invalidateQueries({ queryKey: getAdminControllerGetStatsQueryKey() });
-            },
-            onError: (error) => handleBackendError(error)
+            }
         }
     });
 }

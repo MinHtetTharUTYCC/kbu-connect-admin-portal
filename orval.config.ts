@@ -4,7 +4,7 @@ import { publicApiUrl } from './src/lib/constants/app.config';
 export default defineConfig({
     KBUConnectAdminApi: {
         input: {
-            target: `${publicApiUrl}/api/json`
+            target: `${publicApiUrl}/api/docs/json`
         },
         output: {
             mode: 'tags-split',

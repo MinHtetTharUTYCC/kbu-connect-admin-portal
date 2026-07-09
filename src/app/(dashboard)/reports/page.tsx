@@ -58,8 +58,8 @@ function ReportsContent() {
 
     const { data: reportsData, isLoading } = useReports(currentParams);
     const { data: detail, isLoading: isDetailLoading } = useReportDetail(detailId ?? '');
-    const { mutate: resolveReport, isPending: isResolvingReport } = useResolveReport();
-    const { mutate: batchDismiss, isPending: isBatchDismissing } = useBatchDismissReports();
+    const { mutateAsync: resolveReport, isPending: isResolvingReport } = useResolveReport();
+    const { mutateAsync: batchDismiss, isPending: isBatchDismissing } = useBatchDismissReports();
 
     const reports = reportsData?.reports ?? [];
     const totalPages = reportsData?.totalPages ?? 0;
@@ -109,8 +109,8 @@ function ReportsContent() {
         }
     };
 
-    const handleResolveReport = (id: string, action: 'RESOLVE' | 'DISMISS') => {
-        resolveReport(
+    const handleResolveReport = async (id: string, action: 'RESOLVE' | 'DISMISS') => {
+        await resolveReport(
             { id, data: { action } },
             {
                 onSuccess: () => {
@@ -128,7 +128,17 @@ function ReportsContent() {
                     selectedIds.size > 0 ? (
                         <Button
                             variant="destructive"
-                            onClick={() => batchDismiss({ data: { reportIds: Array.from(selectedIds) } })}
+                            onClick={async () =>
+                                await batchDismiss(
+                                    { data: { reportIds: Array.from(selectedIds) } },
+                                    {
+                                        onSuccess: () => {
+                                            setSelectedIds(new Set());
+                                            toast.success('Reports dismissed');
+                                        }
+                                    }
+                                )
+                            }
                             disabled={isBatchDismissing}
                         >
                             <XCircle className="mr-1 h-4 w-4" />
@@ -224,7 +234,7 @@ function ReportsContent() {
                                                             variant="ghost"
                                                             size="sm"
                                                             disabled={isResolvingReport}
-                                                            onClick={() => handleResolveReport(report.id, 'RESOLVE')}
+                                                            onClick={async () => await handleResolveReport(report.id, 'RESOLVE')}
                                                         >
                                                             <CheckCircle className="h-4 w-4 text-green-600" />
                                                         </Button>
@@ -232,7 +242,7 @@ function ReportsContent() {
                                                             variant="ghost"
                                                             size="sm"
                                                             disabled={isResolvingReport}
-                                                            onClick={() => handleResolveReport(report.id, 'DISMISS')}
+                                                            onClick={async () => await handleResolveReport(report.id, 'DISMISS')}
                                                         >
                                                             <XCircle className="h-4 w-4 text-destructive" />
                                                         </Button>

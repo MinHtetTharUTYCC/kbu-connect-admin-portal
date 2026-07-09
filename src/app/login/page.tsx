@@ -1,6 +1,7 @@
 'use client';
 
 import { GraduationCap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,25 +11,43 @@ import { useLogin } from '@/hooks/auth/use-login';
 import { useVerify } from '@/hooks/auth/use-verify';
 
 export default function LoginPage() {
+    const router = useRouter();
+
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
     const [step, setStep] = useState<'email' | 'otp'>('email');
 
-    const { mutateAsync: loginAsAdmin, isPending: isLoginPending } = useLogin(() => setStep('otp'));
+    const { mutateAsync: loginAsAdmin, isPending: isLoginPending } = useLogin();
     const { mutateAsync: verify, isPending: isVerifyPending } = useVerify();
 
     const handleEmailSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         if (!email) return;
-        await loginAsAdmin({ data: { email } });
+
+        await loginAsAdmin(
+            { data: { email } },
+            {
+                onSuccess: () => {
+                    setStep('otp');
+                }
+            }
+        );
     };
 
     const handleOtpSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         if (!code) return;
-        await verify({ data: { email, code } });
+
+        await verify(
+            { data: { email, code } },
+            {
+                onSuccess: () => {
+                    setEmail('');
+                    setCode('');
+                    router.replace('/');
+                }
+            }
+        );
     };
 
     return (
