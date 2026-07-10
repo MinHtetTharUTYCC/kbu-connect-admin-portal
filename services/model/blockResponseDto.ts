@@ -7,8 +7,8 @@
  */
 
 export interface BlockResponseDto {
-    /** Success message */
-    message: string;
-    /** ID of the blocked user */
-    blockedUserId: string;
+  /** Success message */
+  message: string;
+  /** ID of the blocked user */
+  blockedUserId: string;
 }

@@ -1,19 +1,21 @@
 'use client';
 
+import type { AdminUserItemDto } from '@services/model';
 import type { AdminControllerGetUsersSortOrder } from '@services/model';
 import type { AdminControllerGetUsersParams } from '@services/model/adminControllerGetUsersParams';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Ban, CheckCircle, Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import ActionConfirmDialog from '@/components/action-confirm-dialog';
+import { DataTable, DataTableColumnHeader } from '@/components/data-table';
 import { TopBar } from '@/components/layout/top-bar';
 import { Pagination } from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAllUsers } from '@/hooks/admin/use-all-users';
 import { useBanUser } from '@/hooks/ban/use-ban-user';
 import { useUnbanUser } from '@/hooks/ban/use-unban-user';
@@ -126,104 +128,103 @@ function UsersContent() {
         }
     };
 
+    const columns = useMemo<ColumnDef<AdminUserItemDto>[]>(
+        () => [
+            {
+                accessorKey: 'name',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+                cell: ({ row }) => <span className="font-medium">{row.getValue('name')}</span>
+            },
+            {
+                accessorKey: 'email',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />
+            },
+            {
+                accessorKey: 'faculty',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Faculty" />
+            },
+            {
+                accessorKey: 'gender',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Gender" />
+            },
+            {
+                id: 'status',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+                accessorFn: (row) => (row.isBanned ? 'Banned' : row.isAdmin ? 'Admin' : 'Active'),
+                cell: ({ row }) => {
+                    const user = row.original;
+                    return user.isBanned ? (
+                        <Badge variant="destructive">Banned</Badge>
+                    ) : user.isAdmin ? (
+                        <Badge>Admin</Badge>
+                    ) : (
+                        <Badge variant="secondary">Active</Badge>
+                    );
+                }
+            },
+            {
+                id: 'actions',
+                header: 'Actions',
+                cell: ({ row }) => {
+                    const user = row.original;
+                    return user.isBanned ? (
+                        <Button variant="ghost" size="sm" onClick={() => setUnbanTarget({ id: user.id, name: user.name })}>
+                            <CheckCircle className="mr-1 h-4 w-4" />
+                            Unban
+                        </Button>
+                    ) : (
+                        <Button variant="ghost" size="sm" onClick={() => setBanTarget({ id: user.id, name: user.name })}>
+                            <Ban className="mr-1 h-4 w-4" />
+                            Ban
+                        </Button>
+                    );
+                }
+            }
+        ],
+        []
+    );
+
     const bannedSelectorValue = currentParams.isBanned === true ? 'banned' : currentParams.isBanned === false ? 'active' : undefined;
+
+    const toolbar = (
+        <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                    placeholder="Search by name or email..."
+                    value={localSearch}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    className="pl-9"
+                />
+            </div>
+            <Select value={bannedSelectorValue} onValueChange={(value) => updateSearchParams('isBanned', value, true)}>
+                <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="banned">Banned</SelectItem>
+                </SelectContent>
+            </Select>
+            <Select value={currentParams.sortOrder} onValueChange={(value) => updateSearchParams('sortOrder', value, true)}>
+                <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="desc">Newest</SelectItem>
+                    <SelectItem value="asc">Oldest</SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
+    );
 
     return (
         <div className="h-screen flex flex-col overflow-hidden">
             <TopBar title="Users" />
             <div className="flex-1 flex flex-col gap-4 p-4 overflow-hidden">
-                <div className="flex items-center gap-2">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                            placeholder="Search by name or email..."
-                            value={localSearch}
-                            onChange={(e) => handleSearchChange(e.target.value)}
-                            className="pl-9"
-                        />
-                    </div>
-                    <Select value={bannedSelectorValue} onValueChange={(value) => updateSearchParams('isBanned', value, true)}>
-                        <SelectTrigger className="w-[140px]">
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="banned">Banned</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Select value={currentParams.sortOrder} onValueChange={(value) => updateSearchParams('sortOrder', value, true)}>
-                        <SelectTrigger className="w-[140px]">
-                            <SelectValue placeholder="Sort" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="desc">Newest</SelectItem>
-                            <SelectItem value="asc">Oldest</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-
                 <div className="flex-1 overflow-y-auto">
-                    {isLoading ? (
-                        <div className="space-y-2">
-                            {[1, 2, 3, 4, 5].map((i) => (
-                                <div key={i} className="h-12 animate-pulse rounded bg-muted" />
-                            ))}
-                        </div>
-                    ) : (
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Faculty</TableHead>
-                                    <TableHead>Gender</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {users.map((user) => (
-                                    <TableRow key={user.id}>
-                                        <TableCell className="font-medium">{user.name}</TableCell>
-                                        <TableCell>{user.email}</TableCell>
-                                        <TableCell>{user.faculty}</TableCell>
-                                        <TableCell>{user.gender}</TableCell>
-                                        <TableCell>
-                                            {user.isBanned ? (
-                                                <Badge variant="destructive">Banned</Badge>
-                                            ) : user.isAdmin ? (
-                                                <Badge>Admin</Badge>
-                                            ) : (
-                                                <Badge variant="secondary">Active</Badge>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            {user.isBanned ? (
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => setUnbanTarget({ id: user.id, name: user.name })}
-                                                >
-                                                    <CheckCircle className="mr-1 h-4 w-4" />
-                                                    Unban
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={() => setBanTarget({ id: user.id, name: user.name })}
-                                                >
-                                                    <Ban className="mr-1 h-4 w-4" />
-                                                    Ban
-                                                </Button>
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    )}
+                    <DataTable columns={columns} data={users} isLoading={isLoading} toolbar={toolbar} />
                 </div>
 
                 {!isLoading && users.length > 0 && (

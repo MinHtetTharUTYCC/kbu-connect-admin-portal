@@ -5,12 +5,27 @@
  * Exclusive dating platform for KBU students
  * OpenAPI spec version: 1.0
  */
+import type { MatchStatsDto } from './matchStatsDto';
+import type { MessageStatsDto } from './messageStatsDto';
+import type { NotificationStatsDto } from './notificationStatsDto';
+import type { ReportStatsDto } from './reportStatsDto';
+import type { ShoutoutStatsDto } from './shoutoutStatsDto';
+import type { SwipeStatsDto } from './swipeStatsDto';
+import type { UserStatsDto } from './userStatsDto';
 
 export interface AdminStatsResponseDto {
-    /** Total users */
-    totalUsers: number;
-    /** Total matches */
-    totalMatches: number;
-    /** Pending reports */
-    pendingReports: number;
+  /** User statistics */
+  users: UserStatsDto;
+  /** Match statistics */
+  matches: MatchStatsDto;
+  /** Message statistics */
+  messages: MessageStatsDto;
+  /** Swipe statistics */
+  swipes: SwipeStatsDto;
+  /** Notification statistics */
+  notifications: NotificationStatsDto;
+  /** Report statistics */
+  reports: ReportStatsDto;
+  /** Shoutout statistics */
+  shoutouts: ShoutoutStatsDto;
 }

@@ -7,8 +7,8 @@
  */
 
 export interface RefreshTokenResponseDto {
-    /** JWT access token */
-    access_token: string;
-    /** Token expiration time in seconds */
-    expiresIn: number;
+  /** JWT access token */
+  access_token: string;
+  /** Token expiration time in seconds */
+  expiresIn: number;
 }

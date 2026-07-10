@@ -6,17 +6,18 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UpdateProfileDtoInterestsItem = (typeof UpdateProfileDtoInterestsItem)[keyof typeof UpdateProfileDtoInterestsItem];
+export type UpdateProfileDtoInterestsItem = typeof UpdateProfileDtoInterestsItem[keyof typeof UpdateProfileDtoInterestsItem];
+
 
 export const UpdateProfileDtoInterestsItem = {
-    BADMINTON: 'BADMINTON',
-    MOO_KRATA: 'MOO_KRATA',
-    LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
-    TRAVEL: 'TRAVEL',
-    MUSIC: 'MUSIC',
-    SPORTS: 'SPORTS',
-    GAMING: 'GAMING',
-    COOKING: 'COOKING',
-    ART: 'ART',
-    TECHNOLOGY: 'TECHNOLOGY'
+  BADMINTON: 'BADMINTON',
+  MOO_KRATA: 'MOO_KRATA',
+  LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
+  TRAVEL: 'TRAVEL',
+  MUSIC: 'MUSIC',
+  SPORTS: 'SPORTS',
+  GAMING: 'GAMING',
+  COOKING: 'COOKING',
+  ART: 'ART',
+  TECHNOLOGY: 'TECHNOLOGY',
 } as const;

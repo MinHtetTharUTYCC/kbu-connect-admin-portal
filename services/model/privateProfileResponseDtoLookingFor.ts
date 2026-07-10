@@ -10,15 +10,14 @@
  * What the user is looking for
  * @nullable
  */
-export type PrivateProfileResponseDtoLookingFor =
-    | (typeof PrivateProfileResponseDtoLookingFor)[keyof typeof PrivateProfileResponseDtoLookingFor]
-    | null;
+export type PrivateProfileResponseDtoLookingFor = typeof PrivateProfileResponseDtoLookingFor[keyof typeof PrivateProfileResponseDtoLookingFor] | null;
+
 
 export const PrivateProfileResponseDtoLookingFor = {
-    FRIENDS: 'FRIENDS',
-    SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
-    LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
-    NETWORKING: 'NETWORKING',
-    STUDY_PARTNER: 'STUDY_PARTNER',
-    OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING'
+  FRIENDS: 'FRIENDS',
+  SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
+  LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
+  NETWORKING: 'NETWORKING',
+  STUDY_PARTNER: 'STUDY_PARTNER',
+  OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING',
 } as const;

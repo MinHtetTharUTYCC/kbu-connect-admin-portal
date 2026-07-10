@@ -8,14 +8,14 @@
 import type { ReportItemDto } from './reportItemDto';
 
 export interface ReportsListResponseDto {
-    /** List of reports */
-    reports: ReportItemDto[];
-    /** Total number of reports */
-    total: number;
-    /** Current page number */
-    page: number;
-    /** Items per page */
-    limit: number;
-    /** Total number of pages */
-    totalPages: number;
+  /** List of reports */
+  reports: ReportItemDto[];
+  /** Total number of reports */
+  total: number;
+  /** Current page number */
+  page: number;
+  /** Items per page */
+  limit: number;
+  /** Total number of pages */
+  totalPages: number;
 }

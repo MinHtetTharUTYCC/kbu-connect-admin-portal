@@ -9,23 +9,23 @@ import type { ReportsControllerGetReportsSortOrder } from './reportsControllerGe
 import type { ReportsControllerGetReportsStatus } from './reportsControllerGetReportsStatus';
 
 export type ReportsControllerGetReportsParams = {
-    /**
-     * Page number for pagination (default: 1)
-     * @minimum 1
-     */
-    page?: number;
-    /**
-     * Number of items to return per page (default: 20)
-     * @minimum 1
-     * @maximum 50
-     */
-    limit?: number;
-    /**
-     * Sort order for createdAt (default: desc)
-     */
-    sortOrder?: ReportsControllerGetReportsSortOrder;
-    /**
-     * Filter by report status
-     */
-    status?: ReportsControllerGetReportsStatus;
+/**
+ * Page number for pagination (default: 1)
+ * @minimum 1
+ */
+page?: number;
+/**
+ * Number of items to return per page (default: 20)
+ * @minimum 1
+ * @maximum 50
+ */
+limit?: number;
+/**
+ * Sort order for createdAt (default: desc)
+ */
+sortOrder?: ReportsControllerGetReportsSortOrder;
+/**
+ * Filter by report status
+ */
+status?: ReportsControllerGetReportsStatus;
 };

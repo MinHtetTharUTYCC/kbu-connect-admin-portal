@@ -7,8 +7,8 @@
  */
 
 export interface UploadedImageItemDto {
-    /** URL where the uploaded image can be accessed */
-    url: string;
-    /** Unique identifier for the uploaded image */
-    key: string;
+  /** URL where the uploaded image can be accessed */
+  url: string;
+  /** Unique identifier for the uploaded image */
+  key: string;
 }

@@ -7,8 +7,16 @@
  */
 
 export interface UpdateAnnouncementDto {
-    /** Announcement title */
-    title?: string;
-    /** Announcement body */
-    body?: string;
+  /**
+     * Announcement title
+     * @minLength 1
+     * @maxLength 200
+     */
+  title?: string;
+  /**
+     * Announcement body
+     * @minLength 1
+     * @maxLength 2000
+     */
+  body?: string;
 }

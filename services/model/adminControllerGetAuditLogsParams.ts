@@ -7,15 +7,15 @@
  */
 
 export type AdminControllerGetAuditLogsParams = {
-    /**
-     * Page number for pagination (default: 1)
-     * @minimum 1
-     */
-    page?: number;
-    /**
-     * Number of audit logs to return per page (default: 50)
-     * @minimum 1
-     * @maximum 50
-     */
-    limit?: number;
+/**
+ * Page number for pagination (default: 1)
+ * @minimum 1
+ */
+page?: number;
+/**
+ * Number of audit logs to return per page (default: 50)
+ * @minimum 1
+ * @maximum 50
+ */
+limit?: number;
 };

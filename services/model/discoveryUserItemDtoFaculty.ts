@@ -9,19 +9,20 @@
 /**
  * Faculty the user belongs to
  */
-export type DiscoveryUserItemDtoFaculty = (typeof DiscoveryUserItemDtoFaculty)[keyof typeof DiscoveryUserItemDtoFaculty];
+export type DiscoveryUserItemDtoFaculty = typeof DiscoveryUserItemDtoFaculty[keyof typeof DiscoveryUserItemDtoFaculty];
+
 
 export const DiscoveryUserItemDtoFaculty = {
-    THAI: 'THAI',
-    ENGLISH: 'ENGLISH',
-    DTI: 'DTI',
-    HRM: 'HRM',
-    BBA: 'BBA',
-    CIVIL: 'CIVIL',
-    AVIATION: 'AVIATION',
-    ENGINEERING: 'ENGINEERING',
-    PSYCHOLOGY: 'PSYCHOLOGY',
-    LAW: 'LAW',
-    COMM_ARTS: 'COMM_ARTS',
-    ARCHITECTURE: 'ARCHITECTURE'
+  THAI: 'THAI',
+  ENGLISH: 'ENGLISH',
+  DTI: 'DTI',
+  HRM: 'HRM',
+  BBA: 'BBA',
+  CIVIL: 'CIVIL',
+  AVIATION: 'AVIATION',
+  ENGINEERING: 'ENGINEERING',
+  PSYCHOLOGY: 'PSYCHOLOGY',
+  LAW: 'LAW',
+  COMM_ARTS: 'COMM_ARTS',
+  ARCHITECTURE: 'ARCHITECTURE',
 } as const;

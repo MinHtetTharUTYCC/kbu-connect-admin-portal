@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ReportsControllerGetReportsSortOrder =
-    (typeof ReportsControllerGetReportsSortOrder)[keyof typeof ReportsControllerGetReportsSortOrder];
+export type ReportsControllerGetReportsSortOrder = typeof ReportsControllerGetReportsSortOrder[keyof typeof ReportsControllerGetReportsSortOrder];
+
 
 export const ReportsControllerGetReportsSortOrder = {
-    asc: 'asc',
-    desc: 'desc'
+  asc: 'asc',
+  desc: 'desc',
 } as const;

@@ -8,12 +8,12 @@
 import type { AuditLogItemDto } from './auditLogItemDto';
 
 export interface AuditLogsResponseDto {
-    /** Total audit logs */
-    total: number;
-    /** Current page number */
-    page: number;
-    /** Items per page */
-    limit: number;
-    /** Audit logs */
-    logs: AuditLogItemDto[];
+  /** Total audit logs */
+  total: number;
+  /** Current page number */
+  page: number;
+  /** Items per page */
+  limit: number;
+  /** Audit logs */
+  logs: AuditLogItemDto[];
 }

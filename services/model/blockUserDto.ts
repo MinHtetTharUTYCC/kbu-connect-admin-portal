@@ -7,8 +7,8 @@
  */
 
 export interface BlockUserDto {
-    /** ID of the user to block */
-    blockedId: string;
-    /** Optional reason for blocking */
-    reason?: string;
+  /** ID of the user to block */
+  blockedId: string;
+  /** Optional reason for blocking */
+  reason?: string;
 }

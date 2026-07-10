@@ -10,13 +10,14 @@
  * What the user is looking for
  * @nullable
  */
-export type PublicUserProfileDtoLookingFor = (typeof PublicUserProfileDtoLookingFor)[keyof typeof PublicUserProfileDtoLookingFor] | null;
+export type PublicUserProfileDtoLookingFor = typeof PublicUserProfileDtoLookingFor[keyof typeof PublicUserProfileDtoLookingFor] | null;
+
 
 export const PublicUserProfileDtoLookingFor = {
-    FRIENDS: 'FRIENDS',
-    SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
-    LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
-    NETWORKING: 'NETWORKING',
-    STUDY_PARTNER: 'STUDY_PARTNER',
-    OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING'
+  FRIENDS: 'FRIENDS',
+  SHORT_TERM_PARTNER: 'SHORT_TERM_PARTNER',
+  LONG_TERM_PARTNER: 'LONG_TERM_PARTNER',
+  NETWORKING: 'NETWORKING',
+  STUDY_PARTNER: 'STUDY_PARTNER',
+  OPEN_TO_ANYTHING: 'OPEN_TO_ANYTHING',
 } as const;

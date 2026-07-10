@@ -1,12 +1,14 @@
 'use client';
 
+import type { AuditLogItemDto } from '@services/model';
+import type { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useMemo } from 'react';
+import { DataTable, DataTableColumnHeader } from '@/components/data-table';
 import { TopBar } from '@/components/layout/top-bar';
 import { Pagination } from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAdminAuditLogs } from '@/hooks/admin/use-admin-audit-logs';
 
 function AuditLogsContent() {
@@ -33,57 +35,56 @@ function AuditLogsContent() {
         [searchParams, router]
     );
 
+    const columns = useMemo<ColumnDef<AuditLogItemDto>[]>(
+        () => [
+            {
+                accessorKey: 'timestamp',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Timestamp" />,
+                cell: ({ row }) => <span className="text-sm">{format(new Date(row.original.timestamp), 'MMM d, yyyy HH:mm:ss')}</span>
+            },
+            {
+                accessorKey: 'action',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Action" />,
+                cell: ({ row }) => <Badge variant="outline">{row.original.action}</Badge>
+            },
+            {
+                id: 'actor',
+                accessorFn: (row) => row.actor.name,
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Actor" />,
+                cell: ({ row }) => (
+                    <div className="text-sm">
+                        <p className="font-medium">{row.original.actor.name}</p>
+                        <p className="text-muted-foreground">{row.original.actor.email}</p>
+                    </div>
+                )
+            },
+            {
+                id: 'target',
+                accessorFn: (row) => row.target?.name ?? '',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Target" />,
+                cell: ({ row }) => {
+                    const target = row.original.target;
+                    return target ? (
+                        <div className="text-sm">
+                            <p className="font-medium">{target.name}</p>
+                            <p className="text-muted-foreground">{target.email}</p>
+                        </div>
+                    ) : (
+                        <span className="text-muted-foreground">-</span>
+                    );
+                }
+            }
+        ],
+        []
+    );
+
     return (
         <div>
             <TopBar title="Audit Logs" />
             <div className="p-6">
-                {isLoading ? (
-                    <div className="space-y-2">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <div key={i} className="h-12 animate-pulse rounded bg-muted" />
-                        ))}
-                    </div>
-                ) : (
-                    <>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Timestamp</TableHead>
-                                    <TableHead>Action</TableHead>
-                                    <TableHead>Actor</TableHead>
-                                    <TableHead>Target</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {logs.map((log) => (
-                                    <TableRow key={log.id}>
-                                        <TableCell className="text-sm">{format(new Date(log.timestamp), 'MMM d, yyyy HH:mm:ss')}</TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">{log.action}</Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm">
-                                                <p className="font-medium">{log.actor.name}</p>
-                                                <p className="text-muted-foreground">{log.actor.email}</p>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            {log.target ? (
-                                                <div className="text-sm">
-                                                    <p className="font-medium">{log.target.name}</p>
-                                                    <p className="text-muted-foreground">{log.target.email}</p>
-                                                </div>
-                                            ) : (
-                                                <span className="text-muted-foreground">-</span>
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-
-                        <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
-                    </>
+                <DataTable columns={columns} data={logs} isLoading={isLoading} />
+                {!isLoading && logs.length > 0 && (
+                    <Pagination page={page} totalPages={totalPages} total={data?.total ?? 0} onPageChange={setPage} />
                 )}
             </div>
         </div>

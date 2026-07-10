@@ -9,9 +9,10 @@
 /**
  * Whether this shoutout was sent or received
  */
-export type ShoutoutItemDtoType = (typeof ShoutoutItemDtoType)[keyof typeof ShoutoutItemDtoType];
+export type ShoutoutItemDtoType = typeof ShoutoutItemDtoType[keyof typeof ShoutoutItemDtoType];
+
 
 export const ShoutoutItemDtoType = {
-    sent: 'sent',
-    received: 'received'
+  sent: 'sent',
+  received: 'received',
 } as const;

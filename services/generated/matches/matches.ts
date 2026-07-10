@@ -26,7 +26,6 @@ import type {
 
 import type {
   MatchListResponseDto,
-  MatchMarkAsSeenResponseDto,
   MatchesControllerGetMatchesParams,
   UnmatchDto,
   UnmatchResponseDto
@@ -154,7 +153,7 @@ export const matchesControllerMarkMatchAsSeen = (
 ) => {
 
 
-      return axiosInstanceFn<MatchMarkAsSeenResponseDto>(
+      return axiosInstanceFn<void>(
       {url: `/matches/${matchId}/seen`, method: 'PATCH', signal
     },
       );

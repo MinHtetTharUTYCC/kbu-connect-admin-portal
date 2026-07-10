@@ -8,12 +8,12 @@
 import type { AnnouncementItemDto } from './announcementItemDto';
 
 export interface AnnouncementsListResponseDto {
-    /** List of announcements */
-    data: AnnouncementItemDto[];
-    /** Total announcements */
-    total: number;
-    /** Current page */
-    page: number;
-    /** Items per page */
-    limit: number;
+  /** List of announcements */
+  data: AnnouncementItemDto[];
+  /** Total announcements */
+  total: number;
+  /** Current page */
+  page: number;
+  /** Items per page */
+  limit: number;
 }

@@ -7,8 +7,8 @@
  */
 
 export interface LoginResponseDto {
-    /** Verification code sent to email */
-    message: string;
-    /** User email */
-    email: string;
+  /** Verification code sent to email */
+  message: string;
+  /** User email */
+  email: string;
 }

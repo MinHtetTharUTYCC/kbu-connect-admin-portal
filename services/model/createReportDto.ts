@@ -8,13 +8,13 @@
 import type { CreateReportDtoReason } from './createReportDtoReason';
 
 export interface CreateReportDto {
-    /** ID of the user being reported */
-    reportedId: string;
-    /** Reason for reporting the user */
-    reason: CreateReportDtoReason;
-    /**
+  /** ID of the user being reported */
+  reportedId: string;
+  /** Reason for reporting the user */
+  reason: CreateReportDtoReason;
+  /**
      * Additional details about the report
      * @maxLength 1000
      */
-    description?: string;
+  description?: string;
 }

@@ -7,15 +7,15 @@
  */
 
 export type DiscoveryControllerGetDiscoveryParams = {
-    /**
-     * Cursor for pagination (ID of the last item from previous page)
-     * @nullable
-     */
-    cursor?: string | null;
-    /**
-     * Number of users to return
-     * @minimum 1
-     * @maximum 50
-     */
-    limit?: number;
+/**
+ * Cursor for pagination (ID of the last item from previous page)
+ * @nullable
+ */
+cursor?: string | null;
+/**
+ * Number of users to return
+ * @minimum 1
+ * @maximum 50
+ */
+limit?: number;
 };

@@ -9,25 +9,25 @@ import type { NotificationItemDtoData } from './notificationItemDtoData';
 import type { NotificationItemDtoType } from './notificationItemDtoType';
 
 export interface NotificationItemDto {
-    /** Unique identifier of the notification */
-    id: string;
-    /** Timestamp when the notification was created */
-    createdAt: string;
-    /** Timestamp when the notification was last updated */
-    updatedAt: string;
-    /** Type of the notification */
-    type: NotificationItemDtoType;
-    /** Title of the notification */
-    title: string;
-    /** Body content of the notification */
-    body: string;
-    /**
+  /** Unique identifier of the notification */
+  id: string;
+  /** Timestamp when the notification was created */
+  createdAt: string;
+  /** Timestamp when the notification was last updated */
+  updatedAt: string;
+  /** Type of the notification */
+  type: NotificationItemDtoType;
+  /** Title of the notification */
+  title: string;
+  /** Body content of the notification */
+  body: string;
+  /**
      * Additional metadata associated with the notification
      * @nullable
      */
-    data: NotificationItemDtoData;
-    /** Whether the notification has been read */
-    isRead: boolean;
-    /** ID of the user this notification belongs to */
-    userId: string;
+  data: NotificationItemDtoData;
+  /** Whether the notification has been read */
+  isRead: boolean;
+  /** ID of the user this notification belongs to */
+  userId: string;
 }

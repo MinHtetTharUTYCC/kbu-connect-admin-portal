@@ -1,16 +1,19 @@
 'use client';
 
 import type {
+    ReportItemDto,
     ReportItemDtoReason,
     ReportsControllerGetReportsParams,
     ReportsControllerGetReportsSortOrder,
     ReportsControllerGetReportsStatus
 } from '@services/model';
+import type { ColumnDef } from '@tanstack/react-table';
 import { CheckCircle, Eye, Loader2, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
+import { DataTable, DataTableColumnHeader } from '@/components/data-table';
 import { TopBar } from '@/components/layout/top-bar';
 import { Pagination } from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
@@ -18,7 +21,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useBatchDismissReports } from '@/hooks/reports/use-batch-dismiss-reports';
 import { useReportDetail } from '@/hooks/reports/use-report-detail';
 import { useReports } from '@/hooks/reports/use-reports';
@@ -91,24 +93,6 @@ function ReportsContent() {
         [searchParams, router]
     );
 
-    const toggleSelect = (id: string) => {
-        setSelectedIds((prev) => {
-            const next = new Set(prev);
-            if (next.has(id)) next.delete(id);
-            else next.add(id);
-            return next;
-        });
-    };
-
-    const toggleAll = () => {
-        if (!reports) return;
-        if (selectedIds.size === reports.length) {
-            setSelectedIds(new Set());
-        } else {
-            setSelectedIds(new Set(reports.map((r) => r.id)));
-        }
-    };
-
     const handleResolveReport = async (id: string, action: 'RESOLVE' | 'DISMISS') => {
         await resolveReport(
             { id, data: { action } },
@@ -119,6 +103,140 @@ function ReportsContent() {
             }
         );
     };
+
+    const columns = useMemo<ColumnDef<ReportItemDto>[]>(
+        () => [
+            {
+                id: 'select',
+                header: ({ table }) => (
+                    <Checkbox
+                        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+                        onCheckedChange={(value) => {
+                            table.toggleAllPageRowsSelected(!!value);
+                            if (value) {
+                                setSelectedIds(new Set(reports.map((r) => r.id)));
+                            } else {
+                                setSelectedIds(new Set());
+                            }
+                        }}
+                        aria-label="Select all"
+                    />
+                ),
+                cell: ({ row }) => (
+                    <Checkbox
+                        checked={row.getIsSelected()}
+                        onCheckedChange={(value) => {
+                            row.toggleSelected(!!value);
+                            const id = row.original.id;
+                            setSelectedIds((prev) => {
+                                const next = new Set(prev);
+                                if (value) next.add(id);
+                                else next.delete(id);
+                                return next;
+                            });
+                        }}
+                        aria-label="Select row"
+                    />
+                ),
+                enableSorting: false,
+                enableHiding: false
+            },
+            {
+                accessorFn: (row) => row.reporter.name,
+                id: 'reporter',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Reporter" />
+            },
+            {
+                accessorFn: (row) => row.reported.name,
+                id: 'reported',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Reported" />
+            },
+            {
+                accessorKey: 'reason',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Reason" />,
+                cell: ({ row }) => <Badge variant="outline">{reasonLabels[row.original.reason] ?? row.original.reason}</Badge>
+            },
+            {
+                accessorKey: 'status',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+                cell: ({ row }) => {
+                    const status = row.original.status;
+                    return (
+                        <Badge variant={status === 'PENDING' ? 'default' : status === 'RESOLVED' ? 'secondary' : 'destructive'}>
+                            {status}
+                        </Badge>
+                    );
+                }
+            },
+            {
+                accessorKey: 'createdAt',
+                header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
+                cell: ({ row }) => getFormattedDate(row.original.createdAt)
+            },
+            {
+                id: 'actions',
+                header: 'Actions',
+                enableSorting: false,
+                enableHiding: false,
+                cell: ({ row }) => {
+                    const report = row.original;
+                    return (
+                        <div className="flex gap-1">
+                            <Button variant="ghost" size="sm" onClick={() => setDetailId(report.id)}>
+                                <Eye className="h-4 w-4" />
+                            </Button>
+                            {report.status === 'PENDING' && (
+                                <>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled={isResolvingReport}
+                                        onClick={async () => await handleResolveReport(report.id, 'RESOLVE')}
+                                    >
+                                        <CheckCircle className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled={isResolvingReport}
+                                        onClick={async () => await handleResolveReport(report.id, 'DISMISS')}
+                                    >
+                                        <XCircle className="h-4 w-4 text-destructive" />
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    );
+                }
+            }
+        ],
+        [reports, isResolvingReport, handleResolveReport]
+    );
+
+    const toolbar = (
+        <div className="flex items-center gap-2">
+            <Select value={currentParams.status} onValueChange={(value) => updateSearchParams('status', value, true)}>
+                <SelectTrigger className="w-[160px]">
+                    <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="RESOLVED">Resolved</SelectItem>
+                    <SelectItem value="DISMISSED">Dismissed</SelectItem>
+                </SelectContent>
+            </Select>
+            <Select value={currentParams.sortOrder} onValueChange={(value) => updateSearchParams('sortOrder', value, true)}>
+                <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="desc">Newest</SelectItem>
+                    <SelectItem value="asc">Oldest</SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
+    );
 
     return (
         <div className="h-screen flex flex-col overflow-hidden">
@@ -148,113 +266,8 @@ function ReportsContent() {
                 }
             />
             <div className="flex-1 p-4 flex flex-col overflow-hidden">
-                <div className="flex-1 space-y-4">
-                    <div className="mt-4 flex items-center gap-2">
-                        <Select value={currentParams.status} onValueChange={(value) => updateSearchParams('status', value, true)}>
-                            <SelectTrigger className="w-[160px]">
-                                <SelectValue placeholder="Status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="PENDING">Pending</SelectItem>
-                                <SelectItem value="RESOLVED">Resolved</SelectItem>
-                                <SelectItem value="DISMISSED">Dismissed</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <Select value={currentParams.sortOrder} onValueChange={(value) => updateSearchParams('sortOrder', value, true)}>
-                            <SelectTrigger className="w-[140px]">
-                                <SelectValue placeholder="Sort" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="desc">Newest</SelectItem>
-                                <SelectItem value="asc">Oldest</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {isLoading ? (
-                        <div className="space-y-2">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="h-12 animate-pulse rounded bg-muted" />
-                            ))}
-                        </div>
-                    ) : reports.length === 0 ? (
-                        <p className="text-center text-muted-foreground">No reports found.</p>
-                    ) : (
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-12">
-                                        <Checkbox checked={selectedIds.size === reports.length} onCheckedChange={toggleAll} />
-                                    </TableHead>
-                                    <TableHead>Reporter</TableHead>
-                                    <TableHead>Reported</TableHead>
-                                    <TableHead>Reason</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Date</TableHead>
-                                    <TableHead>Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {reports.map((report) => (
-                                    <TableRow key={report.id}>
-                                        <TableCell>
-                                            <Checkbox
-                                                checked={selectedIds.has(report.id)}
-                                                onCheckedChange={() => toggleSelect(report.id)}
-                                            />
-                                        </TableCell>
-                                        <TableCell>{report.reporter.name}</TableCell>
-                                        <TableCell>{report.reported.name}</TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">{reasonLabels[report.reason] ?? report.reason}</Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge
-                                                variant={
-                                                    report.status === 'PENDING'
-                                                        ? 'default'
-                                                        : report.status === 'RESOLVED'
-                                                          ? 'secondary'
-                                                          : 'destructive'
-                                                }
-                                            >
-                                                {report.status}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>{getFormattedDate(report.createdAt)}</TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-1">
-                                                <Button variant="ghost" size="sm" onClick={() => setDetailId(report.id)}>
-                                                    <Eye className="h-4 w-4" />
-                                                </Button>
-                                                {report.status === 'PENDING' && (
-                                                    <>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            disabled={isResolvingReport}
-                                                            onClick={async () => await handleResolveReport(report.id, 'RESOLVE')}
-                                                        >
-                                                            <CheckCircle className="h-4 w-4 text-green-600" />
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            disabled={isResolvingReport}
-                                                            onClick={async () => await handleResolveReport(report.id, 'DISMISS')}
-                                                        >
-                                                            <XCircle className="h-4 w-4 text-destructive" />
-                                                        </Button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    )}
+                <div className="flex-1 overflow-y-auto">
+                    <DataTable columns={columns} data={reports} isLoading={isLoading} toolbar={toolbar} />
                 </div>
                 {!isLoading && reports.length > 0 && (
                     <Pagination page={currentParams.page || 1} totalPages={totalPages} total={totalPages} onPageChange={setPage} />
