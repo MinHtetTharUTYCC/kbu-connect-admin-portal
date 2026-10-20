@@ -1,6 +1,6 @@
 'use client';
 
-import { Flag, GraduationCap, LayoutDashboard, LogOut, Megaphone, ScrollText, Users } from 'lucide-react';
+import { Flag, GraduationCap, LayoutDashboard, Lightbulb, LogOut, Megaphone, ScrollText, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -34,6 +34,8 @@ const navItems = [
     { href: '/users', label: 'Users', icon: Users },
     { href: '/announcements', label: 'Announcements', icon: Megaphone },
     { href: '/reports', label: 'Reports', icon: Flag },
+    { href: '/feedback', label: 'Feedback', icon: Lightbulb },
+    { href: '/feedback', label: 'Feedback', icon: Lightbulb },
     { href: '/audit-logs', label: 'Audit Logs', icon: ScrollText }
 ];
 
