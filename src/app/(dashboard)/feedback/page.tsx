@@ -4,7 +4,7 @@ import type { FeedbackControllerListParams, FeedbackItemDto, FeedbackItemDtoStat
 import type { ColumnDef } from '@tanstack/react-table';
 import { Eye, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { toast } from 'sonner';
 import { DataTable, DataTableColumnHeader } from '@/components/data-table';
 import { TopBar } from '@/components/layout/top-bar';
@@ -20,6 +20,14 @@ import { getFormattedDate } from '@/lib/utils';
 const statuses: FeedbackItemDtoStatus[] = ['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED'];
 
 export default function FeedbackPage() {
+    return (
+        <Suspense fallback={<div className="p-4">Loading feedback...</div>}>
+            <FeedbackContent />
+        </Suspense>
+    );
+}
+
+function FeedbackContent() {
     const searchParams = useSearchParams();
     const [detail, setDetail] = useState<FeedbackItemDto | null>(null);
     const type = searchParams.get('type') as FeedbackControllerListParams['type'] | null;
