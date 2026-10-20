@@ -3,14 +3,14 @@
 import {
     type ColumnDef,
     type ColumnFiltersState,
-    type SortingState,
-    type VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
-    useReactTable
+    type SortingState,
+    useReactTable,
+    type VisibilityState
 } from '@tanstack/react-table';
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

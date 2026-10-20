@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 import './globals.css';
-import { QueryProvider } from '@/providers/query-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { QueryProvider } from '@/providers/query-provider';
 
 export const metadata: Metadata = {
     title: 'KBU Connect Admin',

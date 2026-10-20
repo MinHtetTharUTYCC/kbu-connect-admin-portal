@@ -28,11 +28,11 @@ function StatRow({ label, value }: { label: string; value: number }) {
     );
 }
 
-function SkeletonCards({ count = 7 }: { count?: number }) {
+function _SkeletonCards({ count = 7 }: { count?: number }) {
     return (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {Array.from({ length: count }).map((_, i) => (
-                <Card key={`skeleton-${i}`}>
+            {Array.from({ length: count }).map((_) => (
+                <Card key="skeleton">
                     <CardContent className="flex h-24 items-center justify-center">
                         <div className="h-4 w-24 animate-pulse rounded bg-muted" />
                     </CardContent>
@@ -50,7 +50,7 @@ export default function DashboardPage() {
             <TopBar title="Dashboard" />
             <div className="space-y-6 p-6">
                 {isLoading ? (
-                    <SkeletonCards />
+                    <_SkeletonCards />
                 ) : stats ? (
                     <>
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

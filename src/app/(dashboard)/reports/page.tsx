@@ -104,6 +104,8 @@ function ReportsContent() {
         );
     };
 
+    const _handleResolveReportCallback = useCallback(handleResolveReport, [resolveReport]);
+
     const columns = useMemo<ColumnDef<ReportItemDto>[]>(
         () => [
             {

@@ -1,7 +1,6 @@
 'use client';
 
-import type { AdminUserItemDto } from '@services/model';
-import type { AdminControllerGetUsersSortOrder } from '@services/model';
+import type { AdminControllerGetUsersSortOrder, AdminUserItemDto } from '@services/model';
 import type { AdminControllerGetUsersParams } from '@services/model/adminControllerGetUsersParams';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Ban, CheckCircle, Search } from 'lucide-react';
