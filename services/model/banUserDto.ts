@@ -7,8 +7,8 @@
  */
 
 export interface BanUserDto {
-    /** ID of the user to ban */
-    userId: string;
-    /** Reason for banning */
-    reason: string;
+  /** ID of the user to ban */
+  userId: string;
+  /** Reason for banning */
+  reason: string;
 }

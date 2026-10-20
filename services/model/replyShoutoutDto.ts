@@ -7,6 +7,10 @@
  */
 
 export interface ReplyShoutoutDto {
-    /** Reply message content */
-    message: string;
+  /**
+     * Reply message content
+     * @minLength 1
+     * @maxLength 500
+     */
+  message: string;
 }

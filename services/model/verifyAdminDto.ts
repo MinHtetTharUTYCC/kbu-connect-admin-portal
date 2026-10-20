@@ -7,8 +7,12 @@
  */
 
 export interface VerifyAdminDto {
-    /** The email address of the admin user. */
-    email: string;
-    /** 6-digit verification code */
-    code: string;
+  /** The email address of the admin user. */
+  email: string;
+  /**
+     * 6-digit verification code
+     * @minLength 6
+     * @maxLength 6
+     */
+  code: string;
 }

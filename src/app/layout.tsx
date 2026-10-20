@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 import './globals.css';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryProvider } from '@/providers/query-provider';
 
 export const metadata: Metadata = {
@@ -12,10 +13,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body>
-                <QueryProvider>
-                    {children}
-                    <Toaster position="top-right" richColors />
-                </QueryProvider>
+                <TooltipProvider>
+                    <QueryProvider>
+                        {children}
+                        <Toaster position="top-right" richColors />
+                    </QueryProvider>
+                </TooltipProvider>
             </body>
         </html>
     );

@@ -7,6 +7,10 @@
  */
 
 export interface UpdateMessageDto {
-    /** Updated message content */
-    content: string;
+  /**
+     * Updated message content
+     * @minLength 1
+     * @maxLength 500
+     */
+  content: string;
 }

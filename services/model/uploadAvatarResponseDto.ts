@@ -7,8 +7,10 @@
  */
 
 export interface UploadAvatarResponseDto {
-    /** Success message */
-    message: string;
-    /** URL of the uploaded avatar image */
-    avatarUrl: string;
+  /** Success message */
+  message: string;
+  /** URL of the uploaded avatar image */
+  avatarUrl: string;
+  /** Permanent storage object key for the avatar */
+  avatarKey: string;
 }

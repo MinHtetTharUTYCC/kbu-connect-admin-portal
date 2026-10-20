@@ -8,11 +8,11 @@
 import type { BlockItemDto } from './blockItemDto';
 
 export interface BlocksListResponseDto {
-    /** List of blocked users */
-    blocks: BlockItemDto[];
-    /**
+  /** List of blocked users */
+  blocks: BlockItemDto[];
+  /**
      * Cursor for pagination (null if no more blocked users)
      * @nullable
      */
-    nextCursor: string | null;
+  nextCursor: string | null;
 }

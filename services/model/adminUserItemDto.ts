@@ -9,20 +9,20 @@ import type { AdminUserItemDtoFaculty } from './adminUserItemDtoFaculty';
 import type { AdminUserItemDtoGender } from './adminUserItemDtoGender';
 
 export interface AdminUserItemDto {
-    /** User ID */
-    id: string;
-    /** User email */
-    email: string;
-    /** User name */
-    name: string;
-    /** User faculty */
-    faculty: AdminUserItemDtoFaculty;
-    /** User gender */
-    gender: AdminUserItemDtoGender;
-    /** Whether the user is banned */
-    isBanned: boolean;
-    /** Whether the user is an admin */
-    isAdmin: boolean;
-    /** User creation timestamp */
-    createdAt: string;
+  /** User ID */
+  id: string;
+  /** User email */
+  email: string;
+  /** User name */
+  name: string;
+  /** User faculty */
+  faculty: AdminUserItemDtoFaculty;
+  /** User gender */
+  gender: AdminUserItemDtoGender;
+  /** Whether the user is banned */
+  isBanned: boolean;
+  /** Whether the user is an admin */
+  isAdmin: boolean;
+  /** User creation timestamp */
+  createdAt: string;
 }

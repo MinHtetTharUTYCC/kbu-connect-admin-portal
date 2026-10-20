@@ -7,6 +7,6 @@
  */
 
 export interface ToggleDiscoverableDto {
-    /** Whether the user is discoverable */
-    isDiscoverable: boolean;
+  /** Whether the user is discoverable */
+  isDiscoverable: boolean;
 }

@@ -7,10 +7,8 @@
  */
 
 export interface NewGalleryImageDto {
-    /** Unique key for the image in storage */
-    key: string;
-    /** URL of the uploaded image */
-    imageUrl: string;
-    /** Order of the image for display purposes */
-    order: number;
+  /** Unique key for the image in storage */
+  key: string;
+  /** Order of the image for display purposes */
+  order: number;
 }

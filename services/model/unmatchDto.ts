@@ -8,8 +8,8 @@
 import type { UnmatchDtoReason } from './unmatchDtoReason';
 
 export interface UnmatchDto {
-    /** Reason for unmatching */
-    reason: UnmatchDtoReason;
-    /** Additional details for unmatching */
-    details?: string;
+  /** Reason for unmatching */
+  reason: UnmatchDtoReason;
+  /** Additional details for unmatching */
+  details?: string;
 }

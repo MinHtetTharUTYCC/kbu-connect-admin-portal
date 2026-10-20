@@ -8,8 +8,8 @@
 import type { SwipeMatchDto } from './swipeMatchDto';
 
 export interface SwipeResponseDto {
-    /** Whether this swipe resulted in a match */
-    isMatch: boolean;
-    /** Match details (null if no match) */
-    match: SwipeMatchDto | null;
+  /** Whether this swipe resulted in a match */
+  isMatch: boolean;
+  /** Match details (null if no match) */
+  match: SwipeMatchDto | null;
 }

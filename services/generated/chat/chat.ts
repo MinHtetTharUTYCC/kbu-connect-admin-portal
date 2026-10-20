@@ -28,6 +28,7 @@ import type {
   ChatControllerGetConversationMessagesParams,
   ChatControllerGetConversationsParams,
   ChatControllerGetShoutoutsParams,
+  ChatUnreadCountResponseDto,
   ConversationDetailsResponseDto,
   ConversationItemDto,
   ConversationsListResponseDto,
@@ -348,6 +349,98 @@ export const useChatControllerReplyToShoutout = <TError = void,
       return useMutation(getChatControllerReplyToShoutoutMutationOptions(options), queryClient);
     }
     /**
+ * @summary Get unread conversation count
+ */
+export const chatControllerGetUnreadCount = (
+
+ signal?: AbortSignal
+) => {
+
+
+      return axiosInstanceFn<ChatUnreadCountResponseDto>(
+      {url: `/chats/unread-count`, method: 'GET', signal
+    },
+      );
+    }
+
+
+
+
+export const getChatControllerGetUnreadCountQueryKey = () => {
+    return [
+    `/chats/unread-count`
+    ] as const;
+    }
+
+
+export const getChatControllerGetUnreadCountQueryOptions = <TData = Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getChatControllerGetUnreadCountQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>> = ({ signal }) => chatControllerGetUnreadCount(signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ChatControllerGetUnreadCountQueryResult = NonNullable<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>>
+export type ChatControllerGetUnreadCountQueryError = unknown
+
+
+export function useChatControllerGetUnreadCount<TData = Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof chatControllerGetUnreadCount>>,
+          TError,
+          Awaited<ReturnType<typeof chatControllerGetUnreadCount>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useChatControllerGetUnreadCount<TData = Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof chatControllerGetUnreadCount>>,
+          TError,
+          Awaited<ReturnType<typeof chatControllerGetUnreadCount>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useChatControllerGetUnreadCount<TData = Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get unread conversation count
+ */
+
+export function useChatControllerGetUnreadCount<TData = Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof chatControllerGetUnreadCount>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getChatControllerGetUnreadCountQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+/**
  * @summary Get active conversations (with last message)
  */
 export const chatControllerGetConversations = (

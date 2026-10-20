@@ -7,10 +7,8 @@
  */
 
 export interface VerifyCodeResponseDto {
-    /** JWT access token */
-    access_token: string;
-    /** Token expiration time in seconds */
-    expiresIn: number;
-    /** Indicates if user profile is completed */
-    profileCompleted: boolean;
+  /** Result message */
+  message: string;
+  /** Indicates if user profile is completed */
+  profileCompleted: boolean;
 }

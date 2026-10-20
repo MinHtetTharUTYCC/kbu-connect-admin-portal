@@ -10,27 +10,27 @@ import type { ReportItemDtoStatus } from './reportItemDtoStatus';
 import type { ReportUserDto } from './reportUserDto';
 
 export interface ReportItemDto {
-    /** Report ID */
-    id: string;
-    /** Reporter user ID */
-    reporterId: string;
-    /** Reported user ID */
-    reportedId: string;
-    /** Report reason */
-    reason: ReportItemDtoReason;
-    /**
+  /** Report ID */
+  id: string;
+  /** Reporter user ID */
+  reporterId: string;
+  /** Reported user ID */
+  reportedId: string;
+  /** Report reason */
+  reason: ReportItemDtoReason;
+  /**
      * Report description
      * @nullable
      */
-    description: string | null;
-    /** Report status */
-    status: ReportItemDtoStatus;
-    /** Report creation timestamp */
-    createdAt: string;
-    /** Report update timestamp */
-    updatedAt: string;
-    /** Reporter details */
-    reporter: ReportUserDto;
-    /** Reported user details */
-    reported: ReportUserDto;
+  description: string | null;
+  /** Report status */
+  status: ReportItemDtoStatus;
+  /** Report creation timestamp */
+  createdAt: string;
+  /** Report update timestamp */
+  updatedAt: string;
+  /** Reporter details */
+  reporter: ReportUserDto;
+  /** Reported user details */
+  reported: ReportUserDto;
 }

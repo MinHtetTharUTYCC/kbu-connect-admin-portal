@@ -7,8 +7,8 @@
  */
 
 export interface RefreshTokenResponseDto {
-    /** JWT access token */
-    access_token: string;
-    /** Token expiration time in seconds */
-    expiresIn: number;
+  /** Confirmation message */
+  message: string;
+  /** New CSRF token to echo in the X-CSRF-TOKEN header */
+  csrfToken: string;
 }

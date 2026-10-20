@@ -7,8 +7,8 @@
  */
 
 export interface WelcomeResponseDto {
-    /** KBU Connect API */
-    message: string;
-    /** API version */
-    version: string;
+  /** KBU Connect API */
+  message: string;
+  /** API version */
+  version: string;
 }

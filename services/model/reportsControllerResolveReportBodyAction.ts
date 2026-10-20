@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ReportsControllerResolveReportBodyAction =
-    (typeof ReportsControllerResolveReportBodyAction)[keyof typeof ReportsControllerResolveReportBodyAction];
+export type ReportsControllerResolveReportBodyAction = typeof ReportsControllerResolveReportBodyAction[keyof typeof ReportsControllerResolveReportBodyAction];
+
 
 export const ReportsControllerResolveReportBodyAction = {
-    RESOLVE: 'RESOLVE',
-    DISMISS: 'DISMISS'
+  RESOLVE: 'RESOLVE',
+  DISMISS: 'DISMISS',
 } as const;

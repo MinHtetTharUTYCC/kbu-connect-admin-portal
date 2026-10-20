@@ -8,10 +8,10 @@
 import type { ConversationItemDto } from './conversationItemDto';
 
 export interface ConversationsListResponseDto {
-    conversations: ConversationItemDto[];
-    /**
+  conversations: ConversationItemDto[];
+  /**
      * Cursor for pagination (null if no more conversations)
      * @nullable
      */
-    nextCursor: string | null;
+  nextCursor: string | null;
 }

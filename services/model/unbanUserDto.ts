@@ -7,6 +7,6 @@
  */
 
 export interface UnbanUserDto {
-    /** ID of the user to unban */
-    userId: string;
+  /** ID of the user to unban */
+  userId: string;
 }

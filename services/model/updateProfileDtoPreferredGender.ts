@@ -9,10 +9,11 @@
 /**
  * Preferred gender for matching
  */
-export type UpdateProfileDtoPreferredGender = (typeof UpdateProfileDtoPreferredGender)[keyof typeof UpdateProfileDtoPreferredGender];
+export type UpdateProfileDtoPreferredGender = typeof UpdateProfileDtoPreferredGender[keyof typeof UpdateProfileDtoPreferredGender];
+
 
 export const UpdateProfileDtoPreferredGender = {
-    MALE: 'MALE',
-    FEMALE: 'FEMALE',
-    ALL: 'ALL'
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  ALL: 'ALL',
 } as const;

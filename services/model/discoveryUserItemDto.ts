@@ -12,34 +12,41 @@ import type { DiscoveryUserItemDtoNationality } from './discoveryUserItemDtoNati
 import type { GalleryItemResponseDto } from './galleryItemResponseDto';
 
 export interface DiscoveryUserItemDto {
-    /** Unique identifier of the user */
-    id: string;
-    /** Name of the user */
-    name: string;
-    /** Faculty the user belongs to */
-    faculty: DiscoveryUserItemDtoFaculty;
-    /**
+  /** Unique identifier of the user */
+  id: string;
+  /** Name of the user */
+  name: string;
+  /**
+     * Avatar image URL of the user (null if none)
+     * @nullable
+     */
+  avatarUrl: string | null;
+  /** Faculty the user belongs to */
+  faculty: DiscoveryUserItemDtoFaculty;
+  /**
      * Nationality of the user
      * @nullable
      */
-    nationality: DiscoveryUserItemDtoNationality;
-    /**
+  nationality: DiscoveryUserItemDtoNationality;
+  /**
      * Short bio of the user
      * @nullable
      */
-    bio: string | null;
-    /**
+  bio: string | null;
+  /**
      * Last seen timestamp of the user
      * @nullable
      */
-    lastSeen: string | null;
-    /** Interests of the user */
-    interests: DiscoveryUserItemDtoInterestsItem[];
-    /**
+  lastSeen: string | null;
+  /** Interests of the user */
+  interests: DiscoveryUserItemDtoInterestsItem[];
+  /**
      * What the user is looking for
      * @nullable
      */
-    lookingFor: DiscoveryUserItemDtoLookingFor;
-    /** Gallery images of the user */
-    gallery: GalleryItemResponseDto[];
+  lookingFor: DiscoveryUserItemDtoLookingFor;
+  /** Gallery images of the user */
+  gallery: GalleryItemResponseDto[];
+  /** Whether the user currently has active (non-expired) stories */
+  hasActiveStories: boolean;
 }

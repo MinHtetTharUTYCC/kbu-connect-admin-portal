@@ -7,8 +7,12 @@
  */
 
 export interface SendMessageDto {
-    /** ID of the conversation to send the message in */
-    conversationId: string;
-    /** Text content of the message */
-    content: string;
+  /** ID of the conversation to send the message in */
+  conversationId: string;
+  /**
+     * Text content of the message
+     * @minLength 1
+     * @maxLength 500
+     */
+  content: string;
 }

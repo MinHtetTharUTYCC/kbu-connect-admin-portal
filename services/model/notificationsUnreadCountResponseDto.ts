@@ -7,6 +7,6 @@
  */
 
 export interface NotificationsUnreadCountResponseDto {
-    /** Number of unread notifications */
-    unreadCount: number;
+  /** Number of unread notifications */
+  unreadCount: number;
 }

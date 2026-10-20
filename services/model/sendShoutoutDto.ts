@@ -7,8 +7,12 @@
  */
 
 export interface SendShoutoutDto {
-    /** ID of the user to send the shoutout to */
-    receiverId: string;
-    /** Shoutout message content */
-    message: string;
+  /** ID of the user to send the shoutout to */
+  receiverId: string;
+  /**
+     * Shoutout message content
+     * @minLength 1
+     * @maxLength 500
+     */
+  message: string;
 }

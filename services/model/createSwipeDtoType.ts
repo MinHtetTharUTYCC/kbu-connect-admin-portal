@@ -9,9 +9,10 @@
 /**
  * Type of swipe action
  */
-export type CreateSwipeDtoType = (typeof CreateSwipeDtoType)[keyof typeof CreateSwipeDtoType];
+export type CreateSwipeDtoType = typeof CreateSwipeDtoType[keyof typeof CreateSwipeDtoType];
+
 
 export const CreateSwipeDtoType = {
-    LIKE: 'LIKE',
-    DISLIKE: 'DISLIKE'
+  LIKE: 'LIKE',
+  DISLIKE: 'DISLIKE',
 } as const;

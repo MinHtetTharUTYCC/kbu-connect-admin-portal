@@ -8,12 +8,12 @@
 import type { AdminUserItemDto } from './adminUserItemDto';
 
 export interface AdminUsersListResponseDto {
-    /** List of users */
-    data: AdminUserItemDto[];
-    /** Total matching users */
-    total: number;
-    /** Number of skipped users */
-    skip: number;
-    /** Number of users requested */
-    take: number;
+  /** List of users */
+  data: AdminUserItemDto[];
+  /** Total matching users */
+  total: number;
+  /** Number of skipped users */
+  skip: number;
+  /** Number of users requested */
+  take: number;
 }

@@ -8,5 +8,5 @@
 import type { ReportsControllerResolveReportBodyAction } from './reportsControllerResolveReportBodyAction';
 
 export type ReportsControllerResolveReportBody = {
-    action?: ReportsControllerResolveReportBodyAction;
+  action?: ReportsControllerResolveReportBodyAction;
 };

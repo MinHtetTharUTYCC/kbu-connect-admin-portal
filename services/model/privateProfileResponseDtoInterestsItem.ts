@@ -6,18 +6,31 @@
  * OpenAPI spec version: 1.0
  */
 
-export type PrivateProfileResponseDtoInterestsItem =
-    (typeof PrivateProfileResponseDtoInterestsItem)[keyof typeof PrivateProfileResponseDtoInterestsItem];
+export type PrivateProfileResponseDtoInterestsItem = typeof PrivateProfileResponseDtoInterestsItem[keyof typeof PrivateProfileResponseDtoInterestsItem];
+
 
 export const PrivateProfileResponseDtoInterestsItem = {
-    BADMINTON: 'BADMINTON',
-    MOO_KRATA: 'MOO_KRATA',
-    LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
-    TRAVEL: 'TRAVEL',
-    MUSIC: 'MUSIC',
-    SPORTS: 'SPORTS',
-    GAMING: 'GAMING',
-    COOKING: 'COOKING',
-    ART: 'ART',
-    TECHNOLOGY: 'TECHNOLOGY'
+  BADMINTON: 'BADMINTON',
+  MOO_KRATA: 'MOO_KRATA',
+  LANGUAGE_EXCHANGE: 'LANGUAGE_EXCHANGE',
+  TRAVEL: 'TRAVEL',
+  MUSIC: 'MUSIC',
+  SPORTS: 'SPORTS',
+  GAMING: 'GAMING',
+  COOKING: 'COOKING',
+  ART: 'ART',
+  TECHNOLOGY: 'TECHNOLOGY',
+  FITNESS: 'FITNESS',
+  READING: 'READING',
+  PHOTOGRAPHY: 'PHOTOGRAPHY',
+  MOVIES: 'MOVIES',
+  DANCING: 'DANCING',
+  YOGA: 'YOGA',
+  SWIMMING: 'SWIMMING',
+  CYCLING: 'CYCLING',
+  VOLUNTEERING: 'VOLUNTEERING',
+  CAMPING: 'CAMPING',
+  E_SPORTS: 'E_SPORTS',
+  COFFEE: 'COFFEE',
+  PETS: 'PETS',
 } as const;

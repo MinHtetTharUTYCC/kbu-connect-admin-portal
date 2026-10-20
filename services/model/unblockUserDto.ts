@@ -7,6 +7,6 @@
  */
 
 export interface UnblockUserDto {
-    /** ID of the user to unblock */
-    blockedId: string;
+  /** ID of the user to unblock */
+  blockedId: string;
 }

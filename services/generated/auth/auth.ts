@@ -6,17 +6,27 @@
  * OpenAPI spec version: 1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
   AdminLoginDto,
+  CsrfTokenResponseDto,
   LoginDto,
   LoginResponseDto,
   RefreshTokenResponseDto,
@@ -29,6 +39,113 @@ import type {
 } from '../../model';
 
 import { axiosInstanceFn } from '../../../src/lib/axios/axios-instance';
+
+
+
+
+const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
+  const result = { queryKey } as T & { queryKey: K };
+  for (const key of Object.keys(query)) {
+    // The explicit queryKey always wins, matching the previous
+    // `{ ...query, queryKey }` spread where it was set last.
+    if (key === 'queryKey') continue;
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => (query as Record<string, unknown>)[key],
+    });
+  }
+  return result;
+};
+
+/**
+ * @summary Get a CSRF token for browser clients
+ */
+export const authControllerGetCsrfToken = (
+
+ signal?: AbortSignal
+) => {
+
+
+      return axiosInstanceFn<CsrfTokenResponseDto>(
+      {url: `/auth/csrf`, method: 'GET', signal
+    },
+      );
+    }
+
+
+
+
+export const getAuthControllerGetCsrfTokenQueryKey = () => {
+    return [
+    `/auth/csrf`
+    ] as const;
+    }
+
+
+export const getAuthControllerGetCsrfTokenQueryOptions = <TData = Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAuthControllerGetCsrfTokenQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof authControllerGetCsrfToken>>> = ({ signal }) => authControllerGetCsrfToken(signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AuthControllerGetCsrfTokenQueryResult = NonNullable<Awaited<ReturnType<typeof authControllerGetCsrfToken>>>
+export type AuthControllerGetCsrfTokenQueryError = unknown
+
+
+export function useAuthControllerGetCsrfToken<TData = Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof authControllerGetCsrfToken>>,
+          TError,
+          Awaited<ReturnType<typeof authControllerGetCsrfToken>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAuthControllerGetCsrfToken<TData = Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof authControllerGetCsrfToken>>,
+          TError,
+          Awaited<ReturnType<typeof authControllerGetCsrfToken>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAuthControllerGetCsrfToken<TData = Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get a CSRF token for browser clients
+ */
+
+export function useAuthControllerGetCsrfToken<TData = Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authControllerGetCsrfToken>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAuthControllerGetCsrfTokenQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
 
 
 
@@ -226,7 +343,7 @@ export const useAuthControllerLoginAsAdmin = <TError = void,
       return useMutation(getAuthControllerLoginAsAdminMutationOptions(options), queryClient);
     }
     /**
- * @summary Verify code and get access token
+ * @summary Verify code and set auth cookies
  */
 export const authControllerVerify = (
     verifyDto: VerifyDto,
@@ -277,7 +394,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerVerifyMutationError = void
 
     /**
- * @summary Verify code and get access token
+ * @summary Verify code and set auth cookies
  */
 export const useAuthControllerVerify = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerVerify>>, TError,{data: VerifyDto}, TContext>, }
@@ -290,7 +407,7 @@ export const useAuthControllerVerify = <TError = void,
       return useMutation(getAuthControllerVerifyMutationOptions(options), queryClient);
     }
     /**
- * @summary Verify code and get access token
+ * @summary Verify code and set auth cookies
  */
 export const authControllerVerifyAsAdmin = (
     verifyAdminDto: VerifyAdminDto,
@@ -341,7 +458,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerVerifyAsAdminMutationError = void
 
     /**
- * @summary Verify code and get access token
+ * @summary Verify code and set auth cookies
  */
 export const useAuthControllerVerifyAsAdmin = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerVerifyAsAdmin>>, TError,{data: VerifyAdminDto}, TContext>, }
@@ -354,7 +471,7 @@ export const useAuthControllerVerifyAsAdmin = <TError = void,
       return useMutation(getAuthControllerVerifyAsAdminMutationOptions(options), queryClient);
     }
     /**
- * @summary Refresh access token using refresh token
+ * @summary Rotate access and refresh tokens
  */
 export const authControllerRefresh = (
 
@@ -403,7 +520,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerRefreshMutationError = void
 
     /**
- * @summary Refresh access token using refresh token
+ * @summary Rotate access and refresh tokens
  */
 export const useAuthControllerRefresh = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerRefresh>>, TError,void, TContext>, }
@@ -416,7 +533,7 @@ export const useAuthControllerRefresh = <TError = void,
       return useMutation(getAuthControllerRefreshMutationOptions(options), queryClient);
     }
     /**
- * @summary Logout user and clear refresh token
+ * @summary Logout user and clear auth cookies
  */
 export const authControllerLogout = (
 
@@ -433,7 +550,7 @@ export const authControllerLogout = (
 
 
 
-export const getAuthControllerLogoutMutationOptions = <TError = unknown,
+export const getAuthControllerLogoutMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext> => {
 
@@ -462,12 +579,12 @@ const {mutation: mutationOptions} = options ?
 
     export type AuthControllerLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogout>>>
 
-    export type AuthControllerLogoutMutationError = unknown
+    export type AuthControllerLogoutMutationError = void
 
     /**
- * @summary Logout user and clear refresh token
+ * @summary Logout user and clear auth cookies
  */
-export const useAuthControllerLogout = <TError = unknown,
+export const useAuthControllerLogout = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogout>>, TError,void, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerLogout>>,

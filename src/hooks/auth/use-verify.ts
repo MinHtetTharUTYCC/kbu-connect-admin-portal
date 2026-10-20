@@ -1,13 +1,15 @@
 import { useAuthControllerVerifyAsAdmin } from '@services/generated/auth/auth';
-import { useAuthStore } from '@/stores/auth-store';
+import { useRouter } from 'next/navigation';
+import { setAuthHint } from '@/lib/auth/auth-hint';
 
 export function useVerify() {
-    const { setToken } = useAuthStore();
+    const router = useRouter();
 
     return useAuthControllerVerifyAsAdmin({
         mutation: {
-            onSuccess: (data) => {
-                setToken(data.access_token);
+            onSuccess: () => {
+                setAuthHint('authenticated');
+                router.replace('/');
             }
         }
     });

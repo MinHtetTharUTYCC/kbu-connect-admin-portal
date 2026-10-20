@@ -9,12 +9,13 @@
 /**
  * Report reason
  */
-export type ReportItemDtoReason = (typeof ReportItemDtoReason)[keyof typeof ReportItemDtoReason];
+export type ReportItemDtoReason = typeof ReportItemDtoReason[keyof typeof ReportItemDtoReason];
+
 
 export const ReportItemDtoReason = {
-    INAPPROPRIATE_BEHAVIOR: 'INAPPROPRIATE_BEHAVIOR',
-    FAKE_PROFILE: 'FAKE_PROFILE',
-    SCAM: 'SCAM',
-    HARASSMENT: 'HARASSMENT',
-    OTHER: 'OTHER'
+  INAPPROPRIATE_BEHAVIOR: 'INAPPROPRIATE_BEHAVIOR',
+  FAKE_PROFILE: 'FAKE_PROFILE',
+  SCAM: 'SCAM',
+  HARASSMENT: 'HARASSMENT',
+  OTHER: 'OTHER',
 } as const;

@@ -14,10 +14,20 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarSeparator
+} from '@/components/ui/sidebar';
 import { useLogout } from '@/hooks/auth/use-logout';
 import { useProfile } from '@/hooks/auth/use-profile';
-import { cn } from '@/lib/utils';
 
 const navItems = [
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -27,54 +37,77 @@ const navItems = [
     { href: '/audit-logs', label: 'Audit Logs', icon: ScrollText }
 ];
 
-export function Sidebar() {
+export function AppSidebar() {
     const pathname = usePathname();
     const { user } = useProfile();
     const { mutateAsync: logout, isPending: isLoggingOut } = useLogout();
     const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
-    if (!user) {
-        return null;
-    }
-
     return (
-        <aside className="flex h-screen w-64 flex-col border-r bg-sidebar text-sidebar-foreground">
-            <div className="flex items-center gap-2 border-b px-6 py-5">
-                <GraduationCap className="h-4 w-4 text-primary" />
-                <span className="text-lg font-bold text-primary">KBU Connect</span>
-            </div>
-            <nav className="flex-1 space-y-1 px-3 py-4">
-                {navItems.map((item) => {
-                    const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={cn(
-                                'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                                isActive
-                                    ? 'bg-primary/10 text-primary'
-                                    : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
-                            )}
-                        >
-                            <item.icon className="h-4 w-4" />
-                            {item.label}
-                        </Link>
-                    );
-                })}
-            </nav>
-            <div className="border-t px-4 py-4">
+        <Sidebar collapsible="icon">
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg">
+                            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                                <GraduationCap className="h-4 w-4" />
+                            </div>
+                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                <span className="truncate font-semibold">KBU Connect</span>
+                                <span className="truncate text-xs text-muted-foreground">Admin Portal</span>
+                            </div>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+            <SidebarSeparator />
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {navItems.map((item) => {
+                                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                                return (
+                                    <SidebarMenuItem key={item.href}>
+                                        <SidebarMenuButton asChild isActive={isActive} tooltip={item.label}>
+                                            <Link href={item.href}>
+                                                <item.icon className="h-4 w-4" />
+                                                <span>{item.label}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+                            })}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarSeparator />
+            <SidebarFooter>
                 {user && (
-                    <div className="mb-3">
-                        <p className="truncate text-sm font-medium">{user.name}</p>
-                        <p className="truncate text-xs text-muted-foreground">{user.email}</p>
-                    </div>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton size="lg">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-muted">
+                                    <span className="text-xs font-medium">{user.name?.charAt(0)?.toUpperCase()}</span>
+                                </div>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-semibold">{user.name}</span>
+                                    <span className="truncate text-xs text-muted-foreground">{user.email}</span>
+                                </div>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
                 )}
-                <Button className="w-full text-center" onClick={() => setShowLogoutDialog(true)}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                </Button>
-            </div>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton onClick={() => setShowLogoutDialog(true)} tooltip="Logout">
+                            <LogOut className="h-4 w-4" />
+                            <span>Logout</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
 
             <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
                 <AlertDialogContent>
@@ -90,6 +123,6 @@ export function Sidebar() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </aside>
+        </Sidebar>
     );
 }

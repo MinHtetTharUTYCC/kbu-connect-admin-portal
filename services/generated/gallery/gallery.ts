@@ -25,6 +25,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  GalleryControllerUploadGalleryImagesBody,
   GalleryImageDeleteResponseDto,
   GalleryItemResponseDto,
   UploadGalleryImagesResponseDto
@@ -54,13 +55,17 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
  * @summary Upload images to user gallery (Max 10 images)
  */
 export const galleryControllerUploadGalleryImages = (
-
+    galleryControllerUploadGalleryImagesBody: GalleryControllerUploadGalleryImagesBody,
  signal?: AbortSignal
 ) => {
 
+      const formData = new FormData();
+galleryControllerUploadGalleryImagesBody.files.forEach(value => formData.append(`files`, value));
 
       return axiosInstanceFn<UploadGalleryImagesResponseDto>(
-      {url: `/gallery/upload`, method: 'POST', signal
+      {url: `/gallery/upload`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
     },
       );
     }
@@ -69,8 +74,8 @@ export const galleryControllerUploadGalleryImages = (
 
 
 export const getGalleryControllerUploadGalleryImagesMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,void, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,void, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,{data: GalleryControllerUploadGalleryImagesBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,{data: GalleryControllerUploadGalleryImagesBody}, TContext> => {
 
 const mutationKey = ['galleryControllerUploadGalleryImages'];
 const {mutation: mutationOptions} = options ?
@@ -82,10 +87,10 @@ const {mutation: mutationOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, void> = () => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, {data: GalleryControllerUploadGalleryImagesBody}> = (props) => {
+          const {data} = props ?? {};
 
-
-          return  galleryControllerUploadGalleryImages()
+          return  galleryControllerUploadGalleryImages(data,)
         }
 
 
@@ -96,18 +101,18 @@ const {mutation: mutationOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type GalleryControllerUploadGalleryImagesMutationResult = NonNullable<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>>
-
+    export type GalleryControllerUploadGalleryImagesMutationBody = GalleryControllerUploadGalleryImagesBody
     export type GalleryControllerUploadGalleryImagesMutationError = unknown
 
     /**
  * @summary Upload images to user gallery (Max 10 images)
  */
 export const useGalleryControllerUploadGalleryImages = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,void, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>, TError,{data: GalleryControllerUploadGalleryImagesBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof galleryControllerUploadGalleryImages>>,
         TError,
-        void,
+        {data: GalleryControllerUploadGalleryImagesBody},
         TContext
       > => {
       return useMutation(getGalleryControllerUploadGalleryImagesMutationOptions(options), queryClient);

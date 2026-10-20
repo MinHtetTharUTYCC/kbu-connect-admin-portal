@@ -6,21 +6,27 @@
  * OpenAPI spec version: 1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
+  AppStatsResponseDto,
+  RegisterDeviceDto,
   WelcomeResponseDto
 } from '../../model';
 
@@ -228,6 +234,98 @@ export function useAppControllerGetHealth<TData = Awaited<ReturnType<typeof appC
 
 
 
+/**
+ * @summary Get platform stats
+ */
+export const appControllerGetStats = (
+
+ signal?: AbortSignal
+) => {
+
+
+      return axiosInstanceFn<AppStatsResponseDto>(
+      {url: `/stats`, method: 'GET', signal
+    },
+      );
+    }
+
+
+
+
+export const getAppControllerGetStatsQueryKey = () => {
+    return [
+    `/stats`
+    ] as const;
+    }
+
+
+export const getAppControllerGetStatsQueryOptions = <TData = Awaited<ReturnType<typeof appControllerGetStats>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAppControllerGetStatsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof appControllerGetStats>>> = ({ signal }) => appControllerGetStats(signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type AppControllerGetStatsQueryResult = NonNullable<Awaited<ReturnType<typeof appControllerGetStats>>>
+export type AppControllerGetStatsQueryError = unknown
+
+
+export function useAppControllerGetStats<TData = Awaited<ReturnType<typeof appControllerGetStats>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof appControllerGetStats>>,
+          TError,
+          Awaited<ReturnType<typeof appControllerGetStats>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAppControllerGetStats<TData = Awaited<ReturnType<typeof appControllerGetStats>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof appControllerGetStats>>,
+          TError,
+          Awaited<ReturnType<typeof appControllerGetStats>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useAppControllerGetStats<TData = Awaited<ReturnType<typeof appControllerGetStats>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get platform stats
+ */
+
+export function useAppControllerGetStats<TData = Awaited<ReturnType<typeof appControllerGetStats>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetStats>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getAppControllerGetStatsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 export const appControllerGetError = (
 
  signal?: AbortSignal
@@ -314,3 +412,67 @@ export function useAppControllerGetError<TData = Awaited<ReturnType<typeof appCo
 
 
 
+/**
+ * @summary Register FCM device token
+ */
+export const appControllerRegisterDevice = (
+    registerDeviceDto: RegisterDeviceDto,
+ signal?: AbortSignal
+) => {
+
+
+      return axiosInstanceFn<void>(
+      {url: `/devices/register`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerDeviceDto, signal
+    },
+      );
+    }
+
+
+
+
+export const getAppControllerRegisterDeviceMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof appControllerRegisterDevice>>, TError,{data: RegisterDeviceDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof appControllerRegisterDevice>>, TError,{data: RegisterDeviceDto}, TContext> => {
+
+const mutationKey = ['appControllerRegisterDevice'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof appControllerRegisterDevice>>, {data: RegisterDeviceDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  appControllerRegisterDevice(data,)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AppControllerRegisterDeviceMutationResult = NonNullable<Awaited<ReturnType<typeof appControllerRegisterDevice>>>
+    export type AppControllerRegisterDeviceMutationBody = RegisterDeviceDto
+    export type AppControllerRegisterDeviceMutationError = unknown
+
+    /**
+ * @summary Register FCM device token
+ */
+export const useAppControllerRegisterDevice = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof appControllerRegisterDevice>>, TError,{data: RegisterDeviceDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof appControllerRegisterDevice>>,
+        TError,
+        {data: RegisterDeviceDto},
+        TContext
+      > => {
+      return useMutation(getAppControllerRegisterDeviceMutationOptions(options), queryClient);
+    }

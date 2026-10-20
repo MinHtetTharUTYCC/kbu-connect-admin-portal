@@ -30,7 +30,8 @@ import type {
   ToggleDiscoverableDto,
   ToggleDiscoverableResponseDto,
   UpdateProfileDto,
-  UploadAvatarResponseDto
+  UploadAvatarResponseDto,
+  UsersControllerUploadAvatarBody
 } from '../../model';
 
 import { axiosInstanceFn } from '../../../src/lib/axios/axios-instance';
@@ -369,13 +370,17 @@ export function useUsersControllerGetUserProfile<TData = Awaited<ReturnType<type
  * @summary Upload avatar image
  */
 export const usersControllerUploadAvatar = (
-
+    usersControllerUploadAvatarBody: UsersControllerUploadAvatarBody,
  signal?: AbortSignal
 ) => {
 
+      const formData = new FormData();
+formData.append(`file`, usersControllerUploadAvatarBody.file);
 
       return axiosInstanceFn<UploadAvatarResponseDto>(
-      {url: `/users/avatar`, method: 'POST', signal
+      {url: `/users/avatar`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
     },
       );
     }
@@ -384,8 +389,8 @@ export const usersControllerUploadAvatar = (
 
 
 export const getUsersControllerUploadAvatarMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,void, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,void, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,{data: UsersControllerUploadAvatarBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,{data: UsersControllerUploadAvatarBody}, TContext> => {
 
 const mutationKey = ['usersControllerUploadAvatar'];
 const {mutation: mutationOptions} = options ?
@@ -397,10 +402,10 @@ const {mutation: mutationOptions} = options ?
 
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, void> = () => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, {data: UsersControllerUploadAvatarBody}> = (props) => {
+          const {data} = props ?? {};
 
-
-          return  usersControllerUploadAvatar()
+          return  usersControllerUploadAvatar(data,)
         }
 
 
@@ -411,18 +416,18 @@ const {mutation: mutationOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type UsersControllerUploadAvatarMutationResult = NonNullable<Awaited<ReturnType<typeof usersControllerUploadAvatar>>>
-
+    export type UsersControllerUploadAvatarMutationBody = UsersControllerUploadAvatarBody
     export type UsersControllerUploadAvatarMutationError = unknown
 
     /**
  * @summary Upload avatar image
  */
 export const useUsersControllerUploadAvatar = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,void, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUploadAvatar>>, TError,{data: UsersControllerUploadAvatarBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof usersControllerUploadAvatar>>,
         TError,
-        void,
+        {data: UsersControllerUploadAvatarBody},
         TContext
       > => {
       return useMutation(getUsersControllerUploadAvatarMutationOptions(options), queryClient);

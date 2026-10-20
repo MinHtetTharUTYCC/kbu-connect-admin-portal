@@ -7,10 +7,10 @@
  */
 
 export interface AuditLogProfileDto {
-    /** Profile ID */
-    id: string;
-    /** Profile name */
-    name: string;
-    /** Profile email */
-    email: string;
+  /** Profile ID */
+  id: string;
+  /** Profile name */
+  name: string;
+  /** Profile email */
+  email: string;
 }

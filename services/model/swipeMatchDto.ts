@@ -8,15 +8,15 @@
 import type { UserSummaryDto } from './userSummaryDto';
 
 export interface SwipeMatchDto {
-    /** Match ID */
-    id: string;
-    /** Timestamp when the match was created */
-    createdAt: string;
-    /** Summary of the matched user */
-    matcher: UserSummaryDto;
-    /**
+  /** Match ID */
+  id: string;
+  /** Timestamp when the match was created */
+  createdAt: string;
+  /** Summary of the matched user */
+  matcher: UserSummaryDto;
+  /**
      * Conversation ID (null if not yet created)
      * @nullable
      */
-    conversationId: string | null;
+  conversationId: string | null;
 }
