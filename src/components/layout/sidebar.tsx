@@ -35,7 +35,6 @@ const navItems = [
     { href: '/announcements', label: 'Announcements', icon: Megaphone },
     { href: '/reports', label: 'Reports', icon: Flag },
     { href: '/feedback', label: 'Feedback', icon: Lightbulb },
-    { href: '/feedback', label: 'Feedback', icon: Lightbulb },
     { href: '/audit-logs', label: 'Audit Logs', icon: ScrollText }
 ];
 
