@@ -1,5 +1,6 @@
 'use client';
 
+import { usePublicControllerGetUserShareMetadata } from '@services/generated/public/public';
 import { Image } from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -7,14 +8,13 @@ import { TopBar } from '@/components/layout/top-bar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useAdminControllerGetUserShareMetadata } from '@/hooks/admin';
 
 export default function PublicSharingPage() {
     const searchParams = useSearchParams();
     const userId = searchParams.get('userId') || '';
     const router = useRouter();
 
-    const { data: metadata, isLoading } = useAdminControllerGetUserShareMetadata(userId || undefined);
+    const { data: metadata, isLoading } = usePublicControllerGetUserShareMetadata(userId);
 
     const handleCopy = () => {
         if (metadata?.shareLink) {

@@ -93,18 +93,19 @@ function ReportsContent() {
         [searchParams, router]
     );
 
-    const handleResolveReport = async (id: string, action: 'RESOLVE' | 'DISMISS') => {
-        await resolveReport(
-            { id, data: { action } },
-            {
-                onSuccess: () => {
-                    toast.success(`Report ${action === 'RESOLVE' ? 'resolved' : 'dismissed'}`);
+    const handleResolveReport = useCallback(
+        async (id: string, action: 'RESOLVE' | 'DISMISS') => {
+            await resolveReport(
+                { id, data: { action } },
+                {
+                    onSuccess: () => {
+                        toast.success(`Report ${action === 'RESOLVE' ? 'resolved' : 'dismissed'}`);
+                    }
                 }
-            }
-        );
-    };
-
-    const _handleResolveReportCallback = useCallback(handleResolveReport, [resolveReport]);
+            );
+        },
+        [resolveReport]
+    );
 
     const columns = useMemo<ColumnDef<ReportItemDto>[]>(
         () => [
